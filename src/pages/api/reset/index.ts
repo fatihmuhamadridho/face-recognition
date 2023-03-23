@@ -3,6 +3,7 @@ import { sequelize } from '@apis/connection';
 import { User } from '@apis/models';
 
 const handler = nextConnect();
+const date = new Date();
 
 handler.get(async (req: any, res: any) => {
   try {
@@ -10,7 +11,18 @@ handler.get(async (req: any, res: any) => {
     await User.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
     await User.sync({ force: true });
 
-    await User.create({ username: 'superadmin', password: 'superadmin' });
+    const login_token = btoa(
+      JSON.stringify({
+        email: 'superadmin',
+        password: 'superadmin'
+      })
+    );
+    await User.create({
+      email: 'superadmin',
+      password: 'superadmin',
+      login_token: login_token,
+      login_token_expired: date.setHours(date.getHours() + 1)
+    });
 
     const getAllUsers = await User.findAll({});
     res.status(200).json({

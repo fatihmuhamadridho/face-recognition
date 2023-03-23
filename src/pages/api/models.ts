@@ -10,8 +10,10 @@ User.init(
       autoIncrement: true,
       primaryKey: true
     },
-    username: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    login_token: DataTypes.STRING,
+    login_token_expired: DataTypes.DATE
   },
   { sequelize }
 );
