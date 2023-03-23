@@ -21,7 +21,8 @@
       "@models/*": ["models/*"],
       "@styles/*": ["src/styles/*"],
       "@services/*": ["pages/api/services/*"],
-      "@libs": ["libs/index.ts"]
+      "@libs": ["libs/index.ts"],
+      "@apis/*": ["src/pages/api/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

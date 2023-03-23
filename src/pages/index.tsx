@@ -1,4 +1,5 @@
-import Head from "next/head";
+import Head from 'next/head';
+import { LoginTemplate } from '@components/templates';
 
 export default function HomePage() {
   return (
@@ -6,7 +7,9 @@ export default function HomePage() {
       <Head>
         <title>Homepage</title>
       </Head>
-      <div className="bg-black">title</div>
+      <div>
+        <LoginTemplate />
+      </div>
     </>
   );
 }
