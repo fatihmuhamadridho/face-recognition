@@ -2,12 +2,21 @@ import { styles } from '@libs';
 import { Formik } from 'formik';
 import { Input, Button } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { AuthService } from 'services/authService/auth';
 
 const LoginForm = () => {
   const router = useRouter();
-  const handleLogin = (values: any) => {
+
+  const handleLogin = async (values: any) => {
     console.log(values);
-    router.push('/dashboard');
+    try {
+      const response = await AuthService.onLogin(values);
+      if (response.status === 200) {
+        router.push('/dashboard');
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
   };
 
   return (

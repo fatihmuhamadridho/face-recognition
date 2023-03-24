@@ -1,8 +1,11 @@
 import { styles } from '@libs';
 import { Menu as MenuCore, Avatar } from '@mantine/core';
 import { IconSettings, IconLogout } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
 
 const Menu = () => {
+  const router = useRouter();
+
   return (
     <MenuCore shadow="md" width={200}>
       <MenuCore.Target>
@@ -24,7 +27,10 @@ const Menu = () => {
         <MenuCore.Item icon={<IconSettings size={14} />}>
           Settings
         </MenuCore.Item>
-        <MenuCore.Item color={'red'} icon={<IconLogout size={14} />}>
+        <MenuCore.Item
+          color={'red'}
+          icon={<IconLogout size={14} />}
+          onClick={() => router.push('/')}>
           Logout
         </MenuCore.Item>
       </MenuCore.Dropdown>

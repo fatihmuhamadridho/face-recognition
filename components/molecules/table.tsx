@@ -1,5 +1,5 @@
 import { styles } from '@libs';
-import { Table as TableCore } from '@mantine/core';
+import { Table as TableCore, Button } from '@mantine/core';
 
 const elements = [
   { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
@@ -12,15 +12,9 @@ const elements = [
 const Table = () => {
   const rows = elements.map((element) => (
     <tr key={element.name}>
-      <td>{element.position}</td>
-      <td>{element.name}</td>
-      <td>{element.symbol}</td>
-      <td>{element.mass}</td>
-      <td>{element.mass}</td>
-      <td>{element.mass}</td>
-      <td>{element.mass}</td>
-      <td>{element.mass}</td>
-      <td>{element.mass}</td>
+      <td className={styles('w-[50px]')}>1</td>
+      <td className={styles('w-[300px]')}>23/10/2022 20:20:00</td>
+      <td>Tidak Hadir</td>
     </tr>
   ));
 
@@ -29,10 +23,9 @@ const Table = () => {
       <TableCore striped highlightOnHover withBorder withColumnBorders>
         <thead>
           <tr>
-            <th>Element position</th>
-            <th>Element name</th>
-            <th>Symbol</th>
-            <th>Atomic mass</th>
+            <th>No</th>
+            <th>Tanggal Absen</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody className={styles('w-full !overflow-hidden')}>{rows}</tbody>
