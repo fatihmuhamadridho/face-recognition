@@ -1,12 +1,19 @@
 import { styles } from '@libs';
 import { Formik } from 'formik';
 import { Input, Button } from '@mantine/core';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
+  const router = useRouter();
+  const handleLogin = (values: any) => {
+    console.log(values);
+    router.push('/dashboard');
+  };
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      onSubmit={(values: any) => console.log(values)}>
+      onSubmit={(values: any) => handleLogin(values)}>
       {({ handleSubmit, handleChange, values }) => (
         <form
           className={styles(

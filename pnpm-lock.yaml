@@ -8,6 +8,7 @@ specifiers:
   '@mantine/next': ^6.0.4
   '@next/eslint-plugin-next': ^13.2.4
   '@svgr/webpack': ^6.5.1
+  '@tabler/icons-react': ^2.11.0
   '@tanstack/react-query': ^4.28.0
   '@tensorflow/tfjs': ^4.2.0
   '@types/node': 18.15.5
@@ -42,6 +43,7 @@ dependencies:
   '@mantine/core': 6.0.4_t7jtalnwvyidfaogp2b564lbfq
   '@mantine/hooks': 6.0.4_react@18.2.0
   '@mantine/next': 6.0.4_qqau3dvbojnwvgou4gzbrwl7sy
+  '@tabler/icons-react': 2.11.0_react@18.2.0
   '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
   '@tensorflow/tfjs': 4.2.0
   '@types/node': 18.15.5
@@ -2109,6 +2111,20 @@ packages:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
       tslib: 2.5.0
+    dev: false
+
+  /@tabler/icons-react/2.11.0_react@18.2.0:
+    resolution: {integrity: sha512-Mbie8IFLrtI0sGm802Bmierle0ixIi7FVczShoLjPZwRM0da1HcD588TF7oMuQ09zd241BY+L7M/f0Q6lquBng==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tabler/icons': 2.11.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /@tabler/icons/2.11.0:
+    resolution: {integrity: sha512-KPESQnvHoSpbAdgzDdrSmeZ9AE8fSU12fU3Cag79uXJCUkC8f741fcvPJPsFMDe0S96VSq3mMYF8JnA7a570uQ==}
     dev: false
 
   /@tanstack/query-core/4.27.0:
@@ -4803,7 +4819,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /property-expr/2.0.5:
     resolution: {integrity: sha512-IJUkICM5dP5znhCckHSv30Q4b5/JA5enCtkRHYaOVOAocnH/1BQEYTC5NMfT3AVl/iXKdr3aqQbQn9DxyWknwA==}
