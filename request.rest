@@ -2,6 +2,26 @@
 GET http://localhost:3000/api/user
 
 ###
+GET http://localhost:3000/api/attendance
+
+###
+POST http://localhost:3000/api/attendance
+Authorization: Bearer eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
+
+###
+GET http://localhost:3000/api/attendance/eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
+
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "superadmin",
+    "password": "superadmin"
+}
+
+
+###
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 

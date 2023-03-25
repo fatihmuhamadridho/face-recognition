@@ -7,13 +7,11 @@ import { AuthContext } from '@components/atoms/auth/AuthContext';
 
 const Navbar = () => {
   const router = useRouter();
-  const { user } = useContext(AuthContext);
+  const { user: userData } = useContext(AuthContext);
   const [isOpenSide, setIsOpenSide] = useState<boolean>(false);
 
   const onCloseSide = () => setIsOpenSide(false);
   const onOpenSide = () => setIsOpenSide(true);
-
-  console.log('user', user);
 
   return (
     <>
@@ -27,7 +25,7 @@ const Navbar = () => {
           <Burger opened={isOpenSide} onClick={onOpenSide} />
           <p>PT CIPTA KARYA ABADI</p>
         </div>
-        <Menu />
+        <Menu data={userData} />
       </div>
 
       <Drawer opened={isOpenSide} onClose={onCloseSide}>
@@ -35,7 +33,7 @@ const Navbar = () => {
           <li
             className={styles('cursor-pointer')}
             onClick={() =>
-              router.push(`${user.RoleId === 1 ? '/admin' : '/employee'}`)
+              router.push(`${userData.RoleId === 1 ? '/admin' : '/employee'}`)
             }>
             Dashboard
           </li>
@@ -44,7 +42,9 @@ const Navbar = () => {
             onClick={() =>
               router.push(
                 `${
-                  user.RoleId === 1 ? '/admin/kehadiran' : '/employee/kehadiran'
+                  userData.RoleId === 1
+                    ? '/admin/kehadiran'
+                    : '/employee/kehadiran'
                 }`
               )
             }>
@@ -55,7 +55,7 @@ const Navbar = () => {
             className={styles('cursor-pointer')}
             onClick={() =>
               router.push(
-                `${user.RoleId === 1 ? '/admin/absen' : '/employee/absen'}`
+                `${userData.RoleId === 1 ? '/admin/absen' : '/employee/absen'}`
               )
             }>
             Request Absen

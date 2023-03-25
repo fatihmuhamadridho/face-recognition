@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }: any) => {
         try {
           const response = await AuthService.onPrivilege(token);
           if (response.status === 200) {
-            console.log(response.data.data);
             setUser(response.data.data);
             setAccessToken(response.data.data.access_token);
             setAuthenticated(true);

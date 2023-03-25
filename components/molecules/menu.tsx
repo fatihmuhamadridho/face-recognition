@@ -3,7 +3,7 @@ import { Menu as MenuCore, Avatar } from '@mantine/core';
 import { IconSettings, IconLogout } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 
-const Menu = () => {
+const Menu = ({ data }: any) => {
   const router = useRouter();
 
   return (
@@ -18,7 +18,7 @@ const Menu = () => {
             'space-x-4 cursor-pointer'
           )}>
           <Avatar radius={'lg'} />
-          <p>Superadmin</p>
+          <p>{data.email}</p>
         </div>
       </MenuCore.Target>
 
