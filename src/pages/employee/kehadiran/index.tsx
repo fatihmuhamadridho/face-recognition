@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import { MainLayout } from '@components/organisms';
 import { Table } from '@components/molecules';
-import { styles } from '@libs';
+import { styles, geolocation } from '@libs';
 import { Button } from '@mantine/core';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '@components/atoms/auth/AuthContext';
 import { useGetOneAttendance } from 'services/attendanceService';
 import { AttendanceService } from 'services/attendanceService/attendance';
@@ -15,6 +15,17 @@ export default function AdminKehadiran() {
   const { data: attendanceData } = useGetOneAttendance(user.login_token);
 
   const handleAttendance = async () => {
+    const distance: any = await geolocation({
+      allowedLatitude: -6.2244171,
+      allowedLongitude: 106.6921108,
+      allowedDistance: 100
+    });
+
+    if (distance > 100) {
+      console.log('distance', distance);
+      return console.error('Your distance is too far from the office');
+    }
+
     try {
       const response = await AttendanceService.postAttendance(user.login_token);
       if (response.status === 200) {

@@ -15,9 +15,9 @@ const LoginForm = () => {
         storageHelper.set('access_token', response.data.data.login_token);
 
         if (response.data.data.RoleId === 1) {
-          router.push('/admin/dashboard');
+          router.push('/admin');
         } else {
-          router.push('/employee/dashboard');
+          router.push('/employee');
         }
         console.log(response);
         // router.push('/dashboard');

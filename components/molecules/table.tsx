@@ -7,6 +7,7 @@ const Table = ({ data }: any) => {
       <td className={styles('w-[50px]')}>{index + 1}</td>
       <td className={styles('w-[300px]')}>{row.createdAt}</td>
       <td>Tidak Hadir</td>
+      <td>Terlambat 1 menit</td>
     </tr>
   ));
 
@@ -17,6 +18,7 @@ const Table = ({ data }: any) => {
           <tr>
             <th>No</th>
             <th>Tanggal Absen</th>
+            <th>Tipe</th>
             <th>Status</th>
           </tr>
         </thead>
