@@ -1,15 +1,19 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { styles } from '@libs';
 import { Burger, Drawer, Divider } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { Menu } from '@components/molecules';
+import { AuthContext } from '@components/atoms/auth/AuthContext';
 
 const Navbar = () => {
   const router = useRouter();
+  const { user } = useContext(AuthContext);
   const [isOpenSide, setIsOpenSide] = useState<boolean>(false);
 
   const onCloseSide = () => setIsOpenSide(false);
   const onOpenSide = () => setIsOpenSide(true);
+
+  console.log('user', user);
 
   return (
     <>
@@ -30,18 +34,30 @@ const Navbar = () => {
         <ul className={styles('space-y-3')}>
           <li
             className={styles('cursor-pointer')}
-            onClick={() => router.push('/dashboard')}>
+            onClick={() =>
+              router.push(`${user.RoleId === 1 ? '/admin' : '/employee'}`)
+            }>
             Dashboard
           </li>
           <li
             className={styles('cursor-pointer')}
-            onClick={() => router.push('/kehadiran')}>
+            onClick={() =>
+              router.push(
+                `${
+                  user.RoleId === 1 ? '/admin/kehadiran' : '/employee/kehadiran'
+                }`
+              )
+            }>
             Kehadiran
           </li>
           <Divider />
           <li
             className={styles('cursor-pointer')}
-            onClick={() => router.push('/absen')}>
+            onClick={() =>
+              router.push(
+                `${user.RoleId === 1 ? '/admin/absen' : '/employee/absen'}`
+              )
+            }>
             Request Absen
           </li>
         </ul>

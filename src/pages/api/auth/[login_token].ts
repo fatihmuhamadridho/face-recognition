@@ -1,6 +1,5 @@
 import nextConnect from 'next-connect';
 import { sequelize } from '@apis/connection';
-import { Op } from 'sequelize';
 import { User } from '@apis/models';
 
 const handler = nextConnect();
@@ -16,8 +15,6 @@ handler.get(async (req: any, res: any) => {
     });
     res.status(200).json({
       status: true,
-      //   params: req.params,
-      //   query: req.query,
       data: findUser
     });
   } catch (error: any) {

@@ -1,4 +1,4 @@
-import { styles } from '@libs';
+import { storageHelper, styles } from '@libs';
 import { Formik } from 'formik';
 import { Input, Button } from '@mantine/core';
 import { useRouter } from 'next/router';
@@ -12,7 +12,15 @@ const LoginForm = () => {
     try {
       const response = await AuthService.onLogin(values);
       if (response.status === 200) {
-        router.push('/dashboard');
+        storageHelper.set('access_token', response.data.data.login_token);
+
+        if (response.data.data.RoleId === 1) {
+          router.push('/admin/dashboard');
+        } else {
+          router.push('/employee/dashboard');
+        }
+        console.log(response);
+        // router.push('/dashboard');
       }
     } catch (error: any) {
       console.error(error);

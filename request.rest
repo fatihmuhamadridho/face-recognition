@@ -6,12 +6,12 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "superadmin",
-    "password": "superadmin"
+    "email": "pegawai",
+    "password": "pegawai"
 }
 
 ###
-GET http://localhost:3000/api/auth/eyJlbWFpbCI6InN1cGVyYWRtaW4iLCJwYXNzd29yZCI6InN1cGVyYWRtaW4ifQ==
+GET http://localhost:3000/api/auth/eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
 
 ###
 GET http://localhost:3000/api/reset

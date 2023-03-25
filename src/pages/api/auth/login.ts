@@ -10,10 +10,9 @@ handler.post(async (req: any, res: any) => {
   try {
     await sequelize.authenticate();
 
-    const login_token = btoa(
-      JSON.stringify({ email: 'superadmin', password: 'superadmin' })
-    );
-    const updateUser = await User.update(
+    const login_token = btoa(JSON.stringify({ email, password }));
+
+    const updateUser: any = await User.update(
       {
         login_token
       },
@@ -24,9 +23,11 @@ handler.post(async (req: any, res: any) => {
         individualHooks: true
       }
     );
+
+    const result = updateUser[1];
     res.status(200).json({
       status: true,
-      data: { updateUser }
+      data: result[0]
     });
   } catch (error: any) {
     res.status(500).json({ status: false, message: error.parent });
