@@ -20,7 +20,7 @@ export default function AdminDashboard() {
           <h1>List User</h1>
           <Button variant={'default'}>Tambah User</Button>
           <Table
-            header={['No', 'Nama Lengkap', 'Role', 'Aksi']}
+            headers={['No', 'Nama Lengkap', 'Role', 'Aksi']}
             data={userData?.map((row: any, index: any) => {
               return (
                 <tr key={index}>

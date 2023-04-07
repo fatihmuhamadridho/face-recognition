@@ -1,17 +1,15 @@
-import Head from 'next/head';
-import { MainLayout } from '@components/organisms';
-import { Table } from '@components/molecules';
-import { styles, geolocation } from '@libs';
+import { geolocation, styles } from '@libs';
+import { Default } from '@components/templates';
 import { Button } from '@mantine/core';
-import { useContext, useEffect } from 'react';
-import { AuthContext } from '@components/atoms/auth/AuthContext';
+import { Table } from '@components/molecules';
+import { useAuthContext } from '@components/atoms';
 import { useGetOneAttendance } from 'services/attendanceService';
 import { AttendanceService } from 'services/attendanceService/attendance';
 import { useQueryClient } from '@tanstack/react-query';
 
 export default function AdminKehadiran() {
   const queryClient = useQueryClient();
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthContext();
   const { data: attendanceData } = useGetOneAttendance(user.login_token);
 
   const handleAttendance = async () => {
@@ -35,32 +33,20 @@ export default function AdminKehadiran() {
     }
   };
 
+  console.log(attendanceData);
+
   return (
-    <>
-      <Head>
-        <title>Dashboard</title>
-      </Head>
-      <MainLayout>
-        <div className={styles('p-5', 'space-y-4')}>
-          <h1>Kehadiran</h1>
-          <Button variant={'default'} onClick={handleAttendance}>
-            Absen
-          </Button>
-          <Table
-            header={['No', 'Tanggal Absen', 'Tipe', 'Status']}
-            data={attendanceData?.map((row: any, index: any) => {
-              return (
-                <tr key={index}>
-                  <td className={styles('w-[50px]')}>{index + 1}</td>
-                  <td className={styles('w-[300px]')}>{row.createdAt}</td>
-                  <td>Tidak Hadir</td>
-                  <td>Terlambat 1 menit</td>
-                </tr>
-              );
-            })}
-          />
-        </div>
-      </MainLayout>
-    </>
+    <Default title="Kehadiran">
+      <div className={styles('p-5', 'space-y-4')}>
+        <h1>Kehadiran</h1>
+        <Button variant={'default'} onClick={handleAttendance}>
+          Absen
+        </Button>
+        <Table
+          // headers={['No', 'Tanggal Absen', 'Tipe', 'Status']}
+          data={attendanceData}
+        />
+      </div>
+    </Default>
   );
 }

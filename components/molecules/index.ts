@@ -1,3 +1,2 @@
-import Menu from './menu';
-import Table from './table';
-export { Menu, Table };
+export { Menu } from './menu';
+export { Table } from './table';

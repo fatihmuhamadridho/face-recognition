@@ -38,4 +38,4 @@ const Menu = ({ data }: any) => {
   );
 };
 
-export default Menu;
+export { Menu };
