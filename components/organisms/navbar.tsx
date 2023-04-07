@@ -60,6 +60,25 @@ const Navbar = () => {
             }>
             Request Absen
           </li>
+          <li
+            className={styles('cursor-pointer')}
+            onClick={() =>
+              router.push(
+                `${userData.RoleId === 1 ? '/admin/user' : '/employee/user'}`
+              )
+            }>
+            User
+          </li>
+          <Divider />
+          <li
+            className={styles('cursor-pointer')}
+            onClick={() =>
+              router.push(
+                `${userData.RoleId === 1 ? '/admin/user' : '/employee/user'}`
+              )
+            }>
+            Setting
+          </li>
         </ul>
       </Drawer>
     </>

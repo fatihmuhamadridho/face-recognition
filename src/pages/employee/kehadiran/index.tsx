@@ -17,8 +17,7 @@ export default function AdminKehadiran() {
   const handleAttendance = async () => {
     const distance: any = await geolocation({
       allowedLatitude: -6.2244171,
-      allowedLongitude: 106.6921108,
-      allowedDistance: 100
+      allowedLongitude: 106.6921108
     });
 
     if (distance > 100) {
@@ -47,7 +46,19 @@ export default function AdminKehadiran() {
           <Button variant={'default'} onClick={handleAttendance}>
             Absen
           </Button>
-          <Table data={attendanceData} />
+          <Table
+            header={['No', 'Tanggal Absen', 'Tipe', 'Status']}
+            data={attendanceData?.map((row: any, index: any) => {
+              return (
+                <tr key={index}>
+                  <td className={styles('w-[50px]')}>{index + 1}</td>
+                  <td className={styles('w-[300px]')}>{row.createdAt}</td>
+                  <td>Tidak Hadir</td>
+                  <td>Terlambat 1 menit</td>
+                </tr>
+              );
+            })}
+          />
         </div>
       </MainLayout>
     </>

@@ -1,8 +1,12 @@
 export default function geolocation(location: {
   allowedLatitude: number;
   allowedLongitude: number;
-  allowedDistance: number;
 }) {
+  function deg2rad(deg: any) {
+    // console.log('deg2rad', deg * (Math.PI / 180));
+    return deg * (Math.PI / 180);
+  }
+
   async function calculateDistance(
     lat1: any,
     lon1: any,
@@ -10,6 +14,7 @@ export default function geolocation(location: {
     lon2 = location.allowedLongitude
   ) {
     const R = 6371; // radius of earth in km
+    console.log(lat2, lat1);
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
     const a =
@@ -23,11 +28,6 @@ export default function geolocation(location: {
     const distanceInMeters = d * 1000; // convert to meters
     // console.log('distanceInMeters', distanceInMeters);
     return distanceInMeters;
-  }
-
-  function deg2rad(deg: any) {
-    // console.log('deg2rad', deg * (Math.PI / 180));
-    return deg * (Math.PI / 180);
   }
 
   const options = {

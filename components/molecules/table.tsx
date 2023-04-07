@@ -1,13 +1,10 @@
 import { styles } from '@libs';
 import { Table as TableCore, Button } from '@mantine/core';
 
-const Table = ({ data }: any) => {
-  const rows = data?.map((row: any, index: any) => (
+const Table = ({ header, data }: any) => {
+  const rows = [1, 2, 3].map((row: any, index: any) => (
     <tr key={index}>
       <td className={styles('w-[50px]')}>{index + 1}</td>
-      <td className={styles('w-[300px]')}>{row.createdAt}</td>
-      <td>Tidak Hadir</td>
-      <td>Terlambat 1 menit</td>
     </tr>
   ));
 
@@ -16,13 +13,14 @@ const Table = ({ data }: any) => {
       <TableCore striped highlightOnHover withBorder withColumnBorders>
         <thead>
           <tr>
-            <th>No</th>
-            <th>Tanggal Absen</th>
-            <th>Tipe</th>
-            <th>Status</th>
+            {header?.map((head: any) => {
+              return <th key={head}>{head}</th>;
+            }) || <th>No</th>}
           </tr>
         </thead>
-        <tbody className={styles('w-full !overflow-hidden')}>{rows}</tbody>
+        <tbody className={styles('w-full !overflow-hidden')}>
+          {data || rows}
+        </tbody>
       </TableCore>
     </div>
   );

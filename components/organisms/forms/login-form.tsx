@@ -3,9 +3,12 @@ import { Formik } from 'formik';
 import { Input, Button } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { AuthService } from 'services/authService/auth';
+import { useContext } from 'react';
+import { AuthContext } from '@components/atoms/auth/AuthContext';
 
 const LoginForm = () => {
   const router = useRouter();
+  const { user, setUser } = useContext(AuthContext);
 
   const handleLogin = async (values: any) => {
     console.log(values);
@@ -13,6 +16,7 @@ const LoginForm = () => {
       const response = await AuthService.onLogin(values);
       if (response.status === 200) {
         storageHelper.set('access_token', response.data.data.login_token);
+        setUser(response.data.data);
 
         if (response.data.data.RoleId === 1) {
           router.push('/admin');
