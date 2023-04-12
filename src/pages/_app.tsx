@@ -1,9 +1,8 @@
 import '@styles/globals.scss';
-import type { AppProps } from 'next/app';
+import { AppProps } from 'next/app';
 import { AuthProvider } from '@components/atoms';
 import { QueryClient, QueryClientProvider } from '@libs';
 import { MantineProvider } from '@mantine/core';
-import { Notifications } from '@mantine/notifications';
 import { NotificationProdiver } from '@components/atoms/notification/NotificationProvider';
 
 export default function App({ Component, pageProps }: AppProps) {

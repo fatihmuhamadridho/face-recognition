@@ -4,7 +4,9 @@ import { styles } from '@libs';
 interface IForm {
   className?: string[] | string;
   initialValues?: { [key: string]: any };
+  // eslint-disable-next-line no-unused-vars
   handleChange?: (event: any) => void;
+  // eslint-disable-next-line no-unused-vars
   handleSubmit?: (event: any) => void;
   hideDefaultInput?: boolean;
   hideDefaultButton?: boolean;

@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }: any) => {
 
   useEffect(() => {
     async function loadUser() {
-      const token = storageHelper.get('access_token');
+      const token = storageHelper?.get('access_token') || undefined;
       if (token) {
         try {
           const response = await AuthService.onPrivilege(token);

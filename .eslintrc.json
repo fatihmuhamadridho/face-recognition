@@ -9,9 +9,8 @@
       "tsx": true
     }
   },
-  "extends": [
-    "plugin:@next/next/recommended",
-    "next/core-web-vitals",
-    "prettier"
-  ]
+  "rules": {
+    "no-unused-vars": "warn"
+  },
+  "extends": ["eslint:recommended", "next", "prettier"]
 }

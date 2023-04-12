@@ -2,10 +2,13 @@ import React, { useContext } from 'react';
 
 export type IAuthContext = {
   authenticated: boolean;
+  // eslint-disable-next-line no-unused-vars
   setAuthenticated: (isAuthenticated: boolean) => void;
   user: any;
+  // eslint-disable-next-line no-unused-vars
   setUser: (e: any) => void;
   accessToken?: string;
+  // eslint-disable-next-line no-unused-vars
   setAccessToken: (e: any) => void;
 };
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as faceapi from 'face-api.js';
 
 const Login = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
   const [userFaceDescriptor, setUserFaceDescriptor] = useState<any>(null);
   const [inputFaceDescriptor, setInputFaceDescriptor] = useState<any>(null);
   const [mediaStream, setMediaStream] = useState<any>(null);
@@ -28,7 +28,7 @@ const Login = () => {
       ? faceMatcher?.findBestMatch(inputFaceDescriptor)
       : null;
     if (bestMatch?.label === 'user') {
-      setLoggedIn(true);
+      // setLoggedIn(true);
     }
   }, [inputFaceDescriptor, userFaceDescriptor]);
 
@@ -57,7 +57,7 @@ const Login = () => {
           .withFaceDescriptors();
         if (detections.length > 0) {
           setUserFaceDescriptor(detections[0].descriptor);
-          setLoggedIn(true);
+          // setLoggedIn(true);
         }
       }, 1000);
     });
@@ -98,7 +98,7 @@ const Login = () => {
                 .withFaceDescriptor();
               if (detections) {
                 setInputFaceDescriptor(detections.descriptor);
-                setLoggedIn(true);
+                // setLoggedIn(true);
                 mediaStream.getTracks()[0].stop();
               }
             }}>
@@ -110,7 +110,7 @@ const Login = () => {
           <h2>You are logged in!</h2>
           <button
             onClick={() => {
-              setLoggedIn(false);
+              // setLoggedIn(false);
               setInputFaceDescriptor(null);
             }}>
             Logout

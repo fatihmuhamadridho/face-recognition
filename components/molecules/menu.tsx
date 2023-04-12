@@ -2,7 +2,7 @@ import { Text, useAuthContext } from '@components/atoms';
 import { storageHelper, styles } from '@libs';
 import { Menu as MenuCore, Avatar } from '@mantine/core';
 import { IconSettings, IconLogout } from '@tabler/icons-react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const Menu = ({ data }: any) => {
   const router = useRouter();

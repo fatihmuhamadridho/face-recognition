@@ -27,13 +27,13 @@ const Table = ({
   const [columsAtt, setColumnsAtt] = useState<string[]>();
 
   useEffect(() => {
-    data?.map((row: any, index: number) => {
+    data?.map((row: any) => {
       setAttributes(Object.keys(row));
     });
   }, [data]);
 
   useEffect(() => {
-    setColumnsAtt(columns?.map((row: any, index: number) => row.value));
+    setColumnsAtt(columns?.map((row: any) => row.value));
   }, [columns]);
 
   const columnsAttRows = data?.map((row: any, index: number) => {

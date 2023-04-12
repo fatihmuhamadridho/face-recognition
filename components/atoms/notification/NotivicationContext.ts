@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 export type INotificationContext = {
   position: string;
+  // eslint-disable-next-line no-unused-vars
   setPosition: (event: 'top-center' | 'bottom-center') => void;
 };
 

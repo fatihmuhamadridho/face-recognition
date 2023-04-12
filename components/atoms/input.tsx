@@ -4,6 +4,7 @@ interface IInput {
   label?: string;
   type?: 'text' | 'number';
   name?: string;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (event: any) => void;
   value?: any;
   hideLabel?: boolean;

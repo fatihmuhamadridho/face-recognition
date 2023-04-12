@@ -3,6 +3,7 @@ import { Button as ButtonCore } from '@mantine/core';
 interface IButton {
   type?: 'submit' | 'button';
   variant?: 'default';
+  // eslint-disable-next-line no-unused-vars
   onClick?: (event: any) => void;
   children?: any;
   title?: string;

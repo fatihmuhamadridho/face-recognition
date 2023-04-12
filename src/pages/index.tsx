@@ -1,10 +1,10 @@
 import { Form, useForm } from '@components/molecules';
 import { AuthTemplate } from '@components/templates';
 import { storageHelper, styles } from '@libs';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { AuthService, IOnLogin } from 'services';
 import { useAuthContext } from '@components/atoms';
-import { notifyFailed, notifySucces } from '@components/atoms/notification';
+import { notification } from '@components/atoms/notification';
 
 export default function Login() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function Login() {
       if (response.status === 200) {
         setUser(response.data.data);
         storageHelper.set('access_token', response.data.data.login_token);
-        notifySucces('Berhasil login');
+        notification.success('Berhasil login');
         console.log(response);
 
         if (response.data.data.RoleId === 1) {
@@ -33,11 +33,11 @@ export default function Login() {
           router.push('/employee');
         }
       } else {
-        notifyFailed('Gagal login');
+        notification.failed('Gagal login');
       }
     } catch (error: any) {
       console.error(error);
-      notifyFailed('Gagal login');
+      notification.failed('Gagal login');
     }
   };
 
