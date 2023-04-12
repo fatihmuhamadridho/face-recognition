@@ -1,4 +1,4 @@
 export interface IOnLogin {
-  email: string;
+  username: string;
   password: string;
 }

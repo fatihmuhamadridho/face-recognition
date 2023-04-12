@@ -3,15 +3,18 @@ import { AuthTemplate } from '@components/templates';
 import { storageHelper, styles } from '@libs';
 import { useRouter } from 'next/navigation';
 import { AuthService, IOnLogin } from 'services';
-import { useAuthContext } from '@components/atoms';
+import { Input, useAuthContext } from '@components/atoms';
 import { notification } from '@components/atoms/notification';
+
+import loginBg from '@assets/images/login.png';
+import { BackgroundImage } from '@mantine/core';
 
 export default function Login() {
   const router = useRouter();
   const { setUser } = useAuthContext();
   const { handleChange, handleSubmit, values } = useForm({
     initialValues: {
-      email: '',
+      username: '',
       password: ''
     },
     onSubmit: (values: IOnLogin) => handleLogin(values)
@@ -43,17 +46,40 @@ export default function Login() {
 
   return (
     <AuthTemplate title="Login">
-      <div
+      <BackgroundImage
         className={styles(
-          'w-full h-full min-h-[100vh]',
+          'p-6 w-full h-full min-h-[100vh]',
           'flex items-center justify-center'
-        )}>
-        <Form
-          initialValues={values}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-        />
-      </div>
+        )}
+        src={loginBg.src}>
+        <div
+          className={styles(
+            'w-full max-w-[1152px] h-[450px]',
+            'bg-white',
+            'grid grid-cols-2'
+          )}>
+          <div className={styles('flex items-center justify-center')}>
+            <Form
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              hideDefaultInput
+              initialValues={values}>
+              <Input
+                name="username"
+                onChange={handleChange}
+                type="text"
+                value={values.username}
+              />
+              <Input
+                name="password"
+                onChange={handleChange}
+                type="text"
+                value={values.password}
+              />
+            </Form>
+          </div>
+        </div>
+      </BackgroundImage>
     </AuthTemplate>
   );
 }

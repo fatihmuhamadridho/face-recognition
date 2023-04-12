@@ -13,7 +13,7 @@ User.init(
       autoIncrement: true,
       primaryKey: true
     },
-    email: DataTypes.STRING,
+    username: DataTypes.STRING,
     password: DataTypes.STRING,
     login_token: DataTypes.STRING,
     login_token_expired: DataTypes.DATE

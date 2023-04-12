@@ -16,7 +16,7 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "superadmin",
+    "username": "superadmin",
     "password": "superadmin"
 }
 
@@ -26,7 +26,7 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "pegawai",
+    "username": "pegawai",
     "password": "pegawai"
 }
 

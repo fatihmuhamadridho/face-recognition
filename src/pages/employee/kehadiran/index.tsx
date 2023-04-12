@@ -17,7 +17,7 @@ export default function EmployeeKehadiran() {
       allowedLongitude: 106.6921108
     });
 
-    if (distance > 100) {
+    if (distance >= 10000000) {
       console.log('distance', distance);
       notification.warning('Jarak anda teralalu jauh dari kantor');
       return console.warn('Your distance is too far from the office');
@@ -43,16 +43,20 @@ export default function EmployeeKehadiran() {
     <Default title="Kehadiran">
       <div className={styles('p-5', 'space-y-4')}>
         <Text title="Kehadiran" />
-        <Button onClick={handleAttendance} title="Absen" />
+        <div className={styles('space-x-3')}>
+          <Button onClick={handleAttendance} title="Absen" />
+          <Button title="Izin" />
+        </div>
         <Table
-          hideActions={['edit', 'delete']}
           columns={[
             { label: '#', value: 'id' },
             { label: 'Tanggal Absen', value: 'createdAt' },
             { label: 'Tipe', value: 'Tidak Hadir' },
-            { label: 'Status', value: 'Terlambat 1 menit' }
+            { label: 'Status', value: 'Terlambat 1 menit' },
+            { label: 'Jarak dengan kantor', value: '100 meter' }
           ]}
           data={attendanceData}
+          hideActions={['edit', 'delete']}
         />
       </div>
     </Default>

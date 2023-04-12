@@ -10,7 +10,8 @@
     }
   },
   "rules": {
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "react/jsx-sort-props": [1, { "ignoreCase": true }]
   },
   "extends": ["eslint:recommended", "next", "prettier"]
 }

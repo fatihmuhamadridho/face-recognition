@@ -6,11 +6,11 @@ import { User } from '@apis/models';
 const handler = nextConnect();
 
 handler.post(async (req: any, res: any) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
     await sequelize.authenticate();
 
-    const login_token = btoa(JSON.stringify({ email, password }));
+    const login_token = btoa(JSON.stringify({ username, password }));
 
     const updateUser: any = await User.update(
       {
@@ -18,7 +18,7 @@ handler.post(async (req: any, res: any) => {
       },
       {
         where: {
-          [Op.and]: [{ email }, { password }]
+          [Op.and]: [{ username }, { password }]
         },
         individualHooks: true
       }

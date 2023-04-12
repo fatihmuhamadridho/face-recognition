@@ -30,7 +30,7 @@ const Menu = ({ data }: any) => {
             'space-x-4 cursor-pointer'
           )}>
           <Avatar radius={'lg'} />
-          <Text title={data?.email} />
+          <Text title={data?.username} />
         </div>
       </MenuCore.Target>
 

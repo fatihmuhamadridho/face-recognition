@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MantineProvider withNormalizeCSS withGlobalStyles>
+      <MantineProvider>
         <NotificationProdiver>
           <AuthProvider>
             <Component {...pageProps} />

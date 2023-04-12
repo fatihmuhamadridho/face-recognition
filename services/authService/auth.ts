@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IOnLogin } from './interface';
 
 const apiClient = axios.create({
   baseURL: '/api'
@@ -10,7 +11,7 @@ export class AuthService {
     login: '/auth/login'
   };
 
-  static onLogin(credential: { email: string; password: string }) {
+  static onLogin(credential: IOnLogin) {
     return apiClient.post(this.ApiEndpoint.login, credential);
   }
 

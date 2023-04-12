@@ -29,11 +29,11 @@ handler.get(async (req: any, res: any) => {
 
     await User.create(
       {
-        email: 'superadmin',
+        username: 'superadmin',
         password: 'superadmin',
         login_token: btoa(
           JSON.stringify({
-            email: 'superadmin',
+            username: 'superadmin',
             password: 'superadmin'
           })
         ),
@@ -49,11 +49,11 @@ handler.get(async (req: any, res: any) => {
 
     await User.create(
       {
-        email: 'pegawai',
+        username: 'pegawai',
         password: 'pegawai',
         login_token: btoa(
           JSON.stringify({
-            email: 'pegawai',
+            username: 'pegawai',
             password: 'pegawai'
           })
         ),
