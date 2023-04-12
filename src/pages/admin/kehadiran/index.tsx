@@ -1,20 +1,15 @@
-import Head from 'next/head';
-import { MainLayout } from '@components/organisms';
 import { Table } from '@components/molecules';
 import { styles } from '@libs';
+import { Default } from '@components/templates';
+import { Text } from '@components/atoms';
 
 export default function AdminKehadiran() {
   return (
-    <>
-      <Head>
-        <title>Dashboard</title>
-      </Head>
-      <MainLayout>
-        <div className={styles('p-5', 'space-y-4')}>
-          <h1>Kehadiran</h1>
-          <Table />
-        </div>
-      </MainLayout>
-    </>
+    <Default title="Kehadiran">
+      <div className={styles('p-5', 'space-y-4')}>
+        <Text title="Kehadiran" />
+        <Table />
+      </div>
+    </Default>
   );
 }

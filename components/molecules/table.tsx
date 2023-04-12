@@ -9,42 +9,107 @@ import {
 
 interface ITable {
   headers?: string[];
-  customHeaders?: string[];
   hideHeaders?: string[];
+  hideActions?: Array<'detail' | 'edit' | 'delete'>;
+  columns?: Array<{ label: string; value?: any }>;
   data?: any[];
   [key: string]: any;
 }
 
-const Table = ({ headers, customHeaders, hideHeaders, data }: ITable) => {
-  const [attributes, setAttributes] = useState<any[]>();
+const Table = ({
+  headers,
+  hideHeaders,
+  hideActions,
+  columns,
+  data
+}: ITable) => {
+  const [attributes, setAttributes] = useState<string[]>();
+  const [columsAtt, setColumnsAtt] = useState<string[]>();
 
   useEffect(() => {
-    data?.map((row: any, index: any) => {
+    data?.map((row: any, index: number) => {
       setAttributes(Object.keys(row));
     });
   }, [data]);
 
-  const rows = data?.map((row: any, index: any) => {
+  useEffect(() => {
+    setColumnsAtt(columns?.map((row: any, index: number) => row.value));
+  }, [columns]);
+
+  const columnsAttRows = data?.map((row: any, index: number) => {
     return (
       <tr key={index}>
-        {attributes?.map((att: any, attIndex: any) => {
-          if (Array.isArray(row?.[att])) {
-            return null;
+        {columsAtt?.map((att: string, index: number) => (
+          <td key={index}>{row?.[att] ? row?.[att] : att !== '' ? att : ''}</td>
+        ))}
+        {!hideActions?.includes('detail') ||
+        !hideActions?.includes('edit') ||
+        !hideActions?.includes('delete') ? (
+          <td className={styles('w-max', 'flex', 'space-x-3')}>
+            {!hideActions?.includes('detail') && (
+              <IconInfoCircle
+                className="cursor-pointer"
+                size={28}
+                color="green"
+              />
+            )}
+            {!hideActions?.includes('edit') && (
+              <IconEditCircle
+                className="cursor-pointer"
+                size={28}
+                color="orange"
+              />
+            )}
+            {!hideActions?.includes('delete') && (
+              <IconCircleX className="cursor-pointer" size={28} color="red" />
+            )}
+          </td>
+        ) : null}
+      </tr>
+    );
+  });
+
+  const rows = data?.map((row: any, index: number) => {
+    return (
+      <tr key={index}>
+        {attributes?.map((att: string, attIndex: number) => {
+          if (Array.isArray(row?.[att]) || typeof row?.[att] === 'object') {
+            return <td key={attIndex}>null</td>;
           }
+
           if (typeof row?.[att] === 'boolean') {
             return <td key={attIndex}>{row?.[att] ? 'true' : 'false'}</td>;
           }
+
           return (
             <td key={attIndex} className="w-max whitespace-nowrap">
               {row?.[att]}
             </td>
           );
         })}
-        <td className={styles('w-max', 'flex', 'space-x-3')}>
-          <IconInfoCircle className="cursor-pointer" size={28} color="green" />
-          <IconEditCircle className="cursor-pointer" size={28} color="orange" />
-          <IconCircleX className="cursor-pointer" size={28} color="red" />
-        </td>
+        {!hideActions?.includes('detail') ||
+        !hideActions?.includes('edit') ||
+        !hideActions?.includes('delete') ? (
+          <td className={styles('w-max', 'flex', 'space-x-3')}>
+            {!hideActions?.includes('detail') && (
+              <IconInfoCircle
+                className="cursor-pointer"
+                size={28}
+                color="green"
+              />
+            )}
+            {!hideActions?.includes('edit') && (
+              <IconEditCircle
+                className="cursor-pointer"
+                size={28}
+                color="orange"
+              />
+            )}
+            {!hideActions?.includes('delete') && (
+              <IconCircleX className="cursor-pointer" size={28} color="red" />
+            )}
+          </td>
+        ) : null}
       </tr>
     );
   });
@@ -58,41 +123,55 @@ const Table = ({ headers, customHeaders, hideHeaders, data }: ITable) => {
       <TableCore striped withBorder withColumnBorders>
         <thead>
           <tr>
-            {attributes
-              ?.filter((att: any) => {
-                if (headers) {
-                  const attFilter = headers.find((head: any) => head === att);
-                  if (attFilter) {
-                    return attFilter;
-                  }
-                } else {
-                  return att;
-                }
+            {columns &&
+              columns
+                ?.concat([{ label: 'actions' }])
+                .map((att: { label: string; value?: any }, index: number) => {
+                  return <th key={index}>{att.label}</th>;
+                })}
 
-                if (customHeaders) {
-                }
-              })
-              ?.filter((attHide: any) => {
-                if (attHide) {
-                  const attHideFind = hideHeaders?.find(
-                    (head: any) => head === attHide
-                  );
-                  if (attHideFind) {
-                    return null;
+            {!columns &&
+              attributes
+                ?.filter((att: any) => {
+                  if (headers) {
+                    const attFilter = headers.find((head: any) => head === att);
+                    if (attFilter) {
+                      return attFilter;
+                    }
+                  } else {
+                    return att;
+                  }
+                })
+                ?.filter((attHide: any) => {
+                  if (attHide) {
+                    const attHideFind = hideHeaders?.find(
+                      (head: any) => head === attHide
+                    );
+                    if (attHideFind) {
+                      return null;
+                    } else {
+                      return attHide;
+                    }
                   } else {
                     return attHide;
                   }
-                } else {
-                  return attHide;
-                }
-              })
-              ?.concat(['actions'])
-              .map((head: any, index: any) => (
-                <th key={index}>{head}</th>
-              ))}
+                })
+                ?.concat(['actions'])
+                .filter((item: string) => {
+                  if (
+                    hideActions?.includes('detail') &&
+                    hideActions?.includes('edit') &&
+                    hideActions?.includes('delete')
+                  ) {
+                    return item !== 'actions';
+                  } else {
+                    return item;
+                  }
+                })
+                .map((head: any, index: any) => <th key={index}>{head}</th>)}
           </tr>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody>{columns ? columnsAttRows : rows}</tbody>
       </TableCore>
     </div>
   );

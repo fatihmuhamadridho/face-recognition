@@ -1,10 +1,22 @@
-import { styles } from '@libs';
+import { Text, useAuthContext } from '@components/atoms';
+import { storageHelper, styles } from '@libs';
 import { Menu as MenuCore, Avatar } from '@mantine/core';
 import { IconSettings, IconLogout } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 
 const Menu = ({ data }: any) => {
   const router = useRouter();
+  const { setUser } = useAuthContext();
+
+  const handleLogout = async () => {
+    try {
+      await setUser(null);
+      await storageHelper.remove('access_token');
+      router.push('/');
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
 
   return (
     <MenuCore shadow="md" width={200}>
@@ -18,7 +30,7 @@ const Menu = ({ data }: any) => {
             'space-x-4 cursor-pointer'
           )}>
           <Avatar radius={'lg'} />
-          <p>{data.email}</p>
+          <Text title={data?.email} />
         </div>
       </MenuCore.Target>
 
@@ -30,7 +42,7 @@ const Menu = ({ data }: any) => {
         <MenuCore.Item
           color={'red'}
           icon={<IconLogout size={14} />}
-          onClick={() => router.push('/')}>
+          onClick={handleLogout}>
           Logout
         </MenuCore.Item>
       </MenuCore.Dropdown>

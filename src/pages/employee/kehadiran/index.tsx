@@ -1,13 +1,16 @@
-import { geolocation, styles } from '@libs';
-import { Default } from '@components/templates';
-import { Button } from '@mantine/core';
-import { Table } from '@components/molecules';
-import { useAuthContext } from '@components/atoms';
-import { useGetOneAttendance } from 'services/attendanceService';
-import { AttendanceService } from 'services/attendanceService/attendance';
-import { useQueryClient } from '@tanstack/react-query';
+import { geolocation, styles, useQueryClient } from '@libs';
+import { useGetOneAttendance, AttendanceService } from 'services';
 
-export default function AdminKehadiran() {
+import { useAuthContext, Button, Text } from '@components/atoms';
+import { Table } from '@components/molecules';
+import { Default } from '@components/templates';
+import {
+  notifyFailed,
+  notifySucces,
+  notifyWarning
+} from '@components/atoms/notification';
+
+export default function EmployeeKehadiran() {
   const queryClient = useQueryClient();
   const { user } = useAuthContext();
   const { data: attendanceData } = useGetOneAttendance(user.login_token);
@@ -20,16 +23,19 @@ export default function AdminKehadiran() {
 
     if (distance > 100) {
       console.log('distance', distance);
-      return console.error('Your distance is too far from the office');
+      notifyWarning('Jarak anda teralalu jauh dari kantor');
+      return console.warn('Your distance is too far from the office');
     }
 
     try {
       const response = await AttendanceService.postAttendance(user.login_token);
       if (response.status === 200) {
         queryClient.invalidateQueries(['getOneAttendance']);
+        notifySucces('Berhasil melakukan absensi kehadiran');
       }
     } catch (error: any) {
       console.log(error);
+      notifyFailed('Gagal melakukan absensi kehadiran');
     }
   };
 
@@ -38,12 +44,16 @@ export default function AdminKehadiran() {
   return (
     <Default title="Kehadiran">
       <div className={styles('p-5', 'space-y-4')}>
-        <h1>Kehadiran</h1>
-        <Button variant={'default'} onClick={handleAttendance}>
-          Absen
-        </Button>
+        <Text title="Kehadiran" />
+        <Button onClick={handleAttendance} title="Absen" />
         <Table
-          // headers={['No', 'Tanggal Absen', 'Tipe', 'Status']}
+          hideActions={['edit', 'delete']}
+          columns={[
+            { label: '#', value: 'id' },
+            { label: 'Tanggal Absen', value: 'createdAt' },
+            { label: 'Tipe', value: 'Tidak Hadir' },
+            { label: 'Status', value: 'Terlambat 1 menit' }
+          ]}
           data={attendanceData}
         />
       </div>

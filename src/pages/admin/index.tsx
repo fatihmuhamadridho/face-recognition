@@ -1,13 +1,5 @@
-import Head from 'next/head';
-import { MainLayout } from '@components/organisms';
+import { Default } from '@components/templates';
 
 export default function AdminDashboard() {
-  return (
-    <>
-      <Head>
-        <title>Dashboard</title>
-      </Head>
-      <MainLayout></MainLayout>
-    </>
-  );
+  return <Default title="User"></Default>;
 }

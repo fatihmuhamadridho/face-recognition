@@ -9,7 +9,7 @@ export const useGetListUsers = () => {
       return response;
     },
     select: (data: any) => {
-      return data.data.data;
+      return data?.data?.data;
     }
   });
 

@@ -1,4 +1,3 @@
-import LoginForm from './forms/login-form';
-import MainLayout from './layouts/main-layout';
-import Navbar from './navbar';
-export { LoginForm, MainLayout, Navbar };
+import { Navbar } from './navbar';
+import { Footer } from '@mantine/core';
+export { Navbar, Footer };

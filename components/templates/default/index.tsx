@@ -4,7 +4,7 @@ import { Navbar } from '@components/organisms';
 
 interface IDefault {
   className?: string[];
-  title?: string;
+  title: string;
   children?: any;
   [key: string]: any;
 }
