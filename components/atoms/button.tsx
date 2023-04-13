@@ -18,7 +18,7 @@ const Button = ({
   children
 }: IButton) => {
   return (
-    <ButtonCore type={type} variant={variant} onClick={onClick || undefined}>
+    <ButtonCore onClick={onClick || undefined} type={type} variant={variant}>
       {children || title}
     </ButtonCore>
   );

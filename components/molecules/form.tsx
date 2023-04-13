@@ -32,7 +32,7 @@ const Form = ({
           <Input key={index} name={item} onChange={handleChange} />
         ))}
       {children}
-      {!hideDefaultButton && <Button type="submit" title="Submit" />}
+      {!hideDefaultButton && <Button title="Submit" type="submit" />}
     </form>
   );
 };

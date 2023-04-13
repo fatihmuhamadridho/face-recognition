@@ -56,7 +56,8 @@ export default function Login() {
           className={styles(
             'w-full max-w-[1152px] h-[450px]',
             'bg-white',
-            'grid grid-cols-2'
+            'grid grid-cols-2',
+            'rounded-[50px]'
           )}>
           <div className={styles('flex items-center justify-center')}>
             <Form

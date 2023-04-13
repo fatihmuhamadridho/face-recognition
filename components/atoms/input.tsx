@@ -15,7 +15,7 @@ const Input = ({ label, type, name, onChange, value, hideLabel }: IInput) => {
   return (
     <InputCore.Wrapper
       label={!hideLabel ? label || name?.toLocaleUpperCase() : undefined}>
-      <InputCore type={type} name={name} onChange={onChange} value={value} />
+      <InputCore name={name} onChange={onChange} type={type} value={value} />
     </InputCore.Wrapper>
   );
 };

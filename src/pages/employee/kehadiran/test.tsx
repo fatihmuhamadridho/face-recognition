@@ -44,11 +44,10 @@ export default function AdminKehadiran() {
       <div>
         <div className={styles('p-5', 'space-y-4')}>
           <h1>Kehadiran</h1>
-          <Button variant={'default'} onClick={handleAttendance}>
+          <Button onClick={handleAttendance} variant={'default'}>
             Absen
           </Button>
           <Table
-            headers={['No', 'Tanggal Absen', 'Tipe', 'Status']}
             data={attendanceData?.map((row: any, index: any) => {
               return (
                 <tr key={index}>
@@ -59,6 +58,7 @@ export default function AdminKehadiran() {
                 </tr>
               );
             })}
+            headers={['No', 'Tanggal Absen', 'Tipe', 'Status']}
           />
         </div>
       </div>

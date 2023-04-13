@@ -53,7 +53,7 @@ const HomePage = () => {
   return (
     <>
       <div>
-        <video id="video" width={720} height={500} autoPlay muted></video>
+        <video autoPlay height={500} id="video" muted width={720}></video>
       </div>
     </>
   );

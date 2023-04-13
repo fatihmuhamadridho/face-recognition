@@ -11,6 +11,7 @@ interface ITable {
   headers?: string[];
   hideHeaders?: string[];
   hideActions?: Array<'detail' | 'edit' | 'delete'>;
+  hideAllActions?: boolean;
   columns?: Array<{ label: string; value?: any }>;
   data?: any[];
   [key: string]: any;
@@ -20,6 +21,7 @@ const Table = ({
   headers,
   hideHeaders,
   hideActions,
+  hideAllActions,
   columns,
   data
 }: ITable) => {
@@ -49,19 +51,19 @@ const Table = ({
             {!hideActions?.includes('detail') && (
               <IconInfoCircle
                 className="cursor-pointer"
-                size={28}
                 color="green"
+                size={28}
               />
             )}
             {!hideActions?.includes('edit') && (
               <IconEditCircle
                 className="cursor-pointer"
-                size={28}
                 color="orange"
+                size={28}
               />
             )}
             {!hideActions?.includes('delete') && (
-              <IconCircleX className="cursor-pointer" size={28} color="red" />
+              <IconCircleX className="cursor-pointer" color="red" size={28} />
             )}
           </td>
         ) : null}
@@ -82,7 +84,7 @@ const Table = ({
           }
 
           return (
-            <td key={attIndex} className="w-max whitespace-nowrap">
+            <td className="w-max whitespace-nowrap" key={attIndex}>
               {row?.[att]}
             </td>
           );
@@ -94,29 +96,25 @@ const Table = ({
             {!hideActions?.includes('detail') && (
               <IconInfoCircle
                 className="cursor-pointer"
-                size={28}
                 color="green"
+                size={28}
               />
             )}
             {!hideActions?.includes('edit') && (
               <IconEditCircle
                 className="cursor-pointer"
-                size={28}
                 color="orange"
+                size={28}
               />
             )}
             {!hideActions?.includes('delete') && (
-              <IconCircleX className="cursor-pointer" size={28} color="red" />
+              <IconCircleX className="cursor-pointer" color="red" size={28} />
             )}
           </td>
         ) : null}
       </tr>
     );
   });
-
-  if (!data) {
-    return null;
-  }
 
   return (
     <div className="pb-4 relative overflow-x-auto">
@@ -158,11 +156,7 @@ const Table = ({
                 })
                 ?.concat(['actions'])
                 .filter((item: string) => {
-                  if (
-                    hideActions?.includes('detail') &&
-                    hideActions?.includes('edit') &&
-                    hideActions?.includes('delete')
-                  ) {
+                  if (hideAllActions) {
                     return item !== 'actions';
                   } else {
                     return item;

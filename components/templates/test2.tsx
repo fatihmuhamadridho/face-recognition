@@ -75,15 +75,15 @@ const Login = () => {
           <div
             style={{ position: 'relative', width: '320px', height: '240px' }}>
             <video
+              autoPlay
               id="video"
+              muted
               style={{
                 position: 'absolute',
                 width: '320px',
                 height: '240px',
                 transform: 'rotateY(180deg)'
               }}
-              muted
-              autoPlay
             />
             <div style={{ position: 'relative' }}>
               ini coba aja lorem ipsum doler sit Lorem ipsum dolor sit.
