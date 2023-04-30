@@ -25,10 +25,10 @@ const Form = ({
 }: IForm) => {
   return (
     <form
-      className={styles('flex flex-col', 'space-y-4', className)}
+      className={styles('w-full', 'flex flex-col', 'space-y-2', className)}
       onSubmit={handleSubmit}>
-      {!hideDefaultInput &&
-        Object.keys(initialValues).map((item: any, index: any) => (
+      {!hideDefaultInput
+        && Object.keys(initialValues).map((item: any, index: any) => (
           <Input key={index} name={item} onChange={handleChange} />
         ))}
       {children}

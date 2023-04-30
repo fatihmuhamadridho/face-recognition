@@ -10,8 +10,8 @@ const Menu = ({ data }: any) => {
 
   const handleLogout = async () => {
     try {
-      await setUser(null);
       await storageHelper.remove('access_token');
+      await setUser(null);
       router.push('/');
     } catch (error: any) {
       console.error(error);
@@ -25,9 +25,9 @@ const Menu = ({ data }: any) => {
           className={styles(
             'py-2 px-4',
             'flex items-center',
-            'bg-blue-300 text-white',
+            'text-white',
             'rounded-[4px]',
-            'space-x-4 cursor-pointer'
+            'space-x-2 cursor-pointer'
           )}>
           <Avatar radius={'lg'} />
           <Text title={data?.username} />
@@ -37,7 +37,7 @@ const Menu = ({ data }: any) => {
       <MenuCore.Dropdown>
         <MenuCore.Label>Application</MenuCore.Label>
         <MenuCore.Item icon={<IconSettings size={14} />}>
-          Settings
+          Change Password
         </MenuCore.Item>
         <MenuCore.Item
           color={'red'}

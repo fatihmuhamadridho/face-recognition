@@ -1,12 +1,10 @@
+import { styles } from '@libs';
 import { Default } from '@components/templates';
-import { Text } from '@mantine/core';
 
 export default function AdminDashboard() {
   return (
     <Default title="User">
-      <div>
-        <Text>Selamat Datang, superadmin</Text>
-      </div>
+      <div className={styles('p-5', 'space-y-4')}></div>
     </Default>
   );
 }

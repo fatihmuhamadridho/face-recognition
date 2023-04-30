@@ -3,11 +3,11 @@ import { AuthTemplate } from '@components/templates';
 import { storageHelper, styles } from '@libs';
 import { useRouter } from 'next/navigation';
 import { AuthService, IOnLogin } from 'services';
-import { Input, useAuthContext } from '@components/atoms';
+import { useAuthContext } from '@components/atoms';
 import { notification } from '@components/atoms/notification';
 
 import loginBg from '@assets/images/login.png';
-import { BackgroundImage } from '@mantine/core';
+import { BackgroundImage, Image, Text, Input } from '@mantine/core';
 
 export default function Login() {
   const router = useRouter();
@@ -46,41 +46,61 @@ export default function Login() {
 
   return (
     <AuthTemplate title="Login">
-      <BackgroundImage
+      <div
         className={styles(
-          'p-6 w-full h-full min-h-[100vh]',
-          'flex items-center justify-center'
-        )}
-        src={loginBg.src}>
-        <div
-          className={styles(
-            'w-full max-w-[1152px] h-[450px]',
-            'bg-white',
-            'grid grid-cols-2',
-            'rounded-[50px]'
-          )}>
-          <div className={styles('flex items-center justify-center')}>
-            <Form
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-              hideDefaultInput
-              initialValues={values}>
-              <Input
-                name="username"
-                onChange={handleChange}
-                type="text"
-                value={values.username}
-              />
-              <Input
-                name="password"
-                onChange={handleChange}
-                type="text"
-                value={values.password}
-              />
-            </Form>
-          </div>
+          'p-4 w-full max-w-[480px]',
+          'flex flex-col items-center',
+          'bg-white',
+          'space-y-2',
+          'z-20'
+        )}>
+        <Image alt="favicon.ico" height={100} src={'favicon.ico'} width={100} />
+        <Text
+          className={styles('leading-[48px]')}
+          color="#1D90F4"
+          size={28}
+          ta={'center'}>
+          ABSENSI PEGAWAI PPNPN BALITBANG HUKUM DAN HAM.
+        </Text>
+        <div className={styles('w-full', 'flex items-center justify-center')}>
+          <Form
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            hideDefaultInput
+            initialValues={values}>
+            <Input
+              className={styles('w-full')}
+              name="username"
+              onChange={handleChange}
+              type="text"
+              value={values.username}
+            />
+            <Input
+              className={styles('w-full')}
+              name="password"
+              onChange={handleChange}
+              type="text"
+              value={values.password}
+            />
+          </Form>
         </div>
-      </BackgroundImage>
+        <Text size={'md'}>
+          Do not have an account?{' '}
+          <span
+            className={styles('text-red-500', 'cursor-pointer')}
+            onClick={() => router.push('/register')}>
+            Register
+          </span>
+        </Text>
+      </div>
+      <div className={styles('flex items-center justify-center', 'allMobile:hidden')}>
+        <Image
+          alt="login.png"
+          height={330}
+          src={'./images/illustrations/login.png'}
+          width={508}
+        />
+      </div>
     </AuthTemplate>
   );
 }
