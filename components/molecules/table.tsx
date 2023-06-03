@@ -1,11 +1,7 @@
 import { styles } from '@libs';
 import { Table as TableCore, SimpleGrid } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import {
-  IconInfoCircle,
-  IconEditCircle,
-  IconCircleX
-} from '@tabler/icons-react';
+import { IconInfoCircle, IconEditCircle, IconCircleX } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 
 interface ITable {
@@ -15,6 +11,7 @@ interface ITable {
   hideAllActions?: boolean;
   columns?: Array<{ label: string; value?: any }>;
   data?: any[];
+  // height?: number;
   handleUpdate?: any;
   handleDelete?: { service: (e: any) => void; params: any };
   invalidate?: () => void;
@@ -51,23 +48,15 @@ const Table = ({
         {columsAtt?.map((att: string, index: number) => (
           <td key={index}>{row?.[att] ? row?.[att] : att !== '' ? att : ''}</td>
         ))}
-        {!hideActions?.includes('detail') ||
-        !hideActions?.includes('edit') ||
-        !hideActions?.includes('delete') ? (
+        {!hideActions?.includes('detail')
+        || !hideActions?.includes('edit')
+        || !hideActions?.includes('delete') ? (
           <td className={styles('w-max', 'flex', 'space-x-3')}>
             {!hideActions?.includes('detail') && (
-              <IconInfoCircle
-                className="cursor-pointer"
-                color="green"
-                size={28}
-              />
+              <IconInfoCircle className="cursor-pointer" color="green" size={28} />
             )}
             {!hideActions?.includes('edit') && (
-              <IconEditCircle
-                className="cursor-pointer"
-                color="orange"
-                size={28}
-              />
+              <IconEditCircle className="cursor-pointer" color="orange" size={28} />
             )}
             {!hideActions?.includes('delete') && (
               <IconCircleX className="cursor-pointer" color="red" size={28} />
@@ -81,9 +70,7 @@ const Table = ({
   const handleDeleteSubmit = async (row: any) => {
     console.log(row?.[handleDelete?.params]);
     try {
-      const response: any = await handleDelete?.service(
-        row?.[handleDelete?.params]
-      );
+      const response: any = await handleDelete?.service(row?.[handleDelete?.params]);
       if (response.status === 200) {
         console.log(response);
         invalidate && (await invalidate());
@@ -128,21 +115,13 @@ const Table = ({
             </td>
           );
         })}
-        {!hideActions?.includes('detail') ||
-        !hideActions?.includes('edit') ||
-        !hideActions?.includes('delete') ? (
+        {!hideActions?.includes('detail')
+        || !hideActions?.includes('edit')
+        || !hideActions?.includes('delete') ? (
           <td className={styles('h-full')}>
-            <div
-              className={styles(
-                'flex items-center justify-center',
-                'space-x-3'
-              )}>
+            <div className={styles('flex items-center justify-center', 'space-x-3')}>
               {!hideActions?.includes('detail') && (
-                <IconInfoCircle
-                  className="cursor-pointer"
-                  color="green"
-                  size={28}
-                />
+                <IconInfoCircle className="cursor-pointer" color="green" size={28} />
               )}
               {!hideActions?.includes('edit') && (
                 <IconEditCircle
@@ -167,57 +146,63 @@ const Table = ({
     );
   });
 
-  return (
-    <SimpleGrid className="pb-4 relative overflow-x-auto">
-      <TableCore striped withBorder withColumnBorders>
-        <thead>
-          <tr>
-            {columns &&
-              columns
-                ?.concat([{ label: 'actions' }])
-                .map((att: { label: string; value?: any }, index: number) => {
-                  return <th key={index}>{att.label}</th>;
-                })}
+  const headCustom = columns
+    ?.concat([{ label: 'actions' }])
+    .map((att: { label: string; value?: any }, index: number) => {
+      return (
+        <th className="!text-white" key={index}>
+          {att.label}
+        </th>
+      );
+    });
 
-            {!columns &&
-              attributes
-                ?.filter((att: any) => {
-                  if (headers) {
-                    const attFilter = headers.find((head: any) => head === att);
-                    if (attFilter) {
-                      return attFilter;
-                    }
-                  } else {
-                    return att;
-                  }
-                })
-                ?.filter((attHide: any) => {
-                  if (attHide) {
-                    const attHideFind = hideHeaders?.find(
-                      (head: any) => head === attHide
-                    );
-                    if (attHideFind) {
-                      return null;
-                    } else {
-                      return attHide;
-                    }
-                  } else {
-                    return attHide;
-                  }
-                })
-                ?.concat(['actions'])
-                .filter((item: string) => {
-                  if (hideAllActions) {
-                    return item !== 'actions';
-                  } else {
-                    return item;
-                  }
-                })
-                .map((head: any, index: any) => <th key={index}>{head}</th>)}
-          </tr>
-        </thead>
-        <tbody>{columns ? columnsAttRows : rows}</tbody>
-      </TableCore>
+  const headDefault = attributes
+    ?.filter((att: any) => {
+      if (headers) {
+        const attFilter = headers.find((head: any) => head === att);
+        if (attFilter) {
+          return attFilter;
+        }
+      } else {
+        return att;
+      }
+    })
+    ?.filter((attHide: any) => {
+      if (attHide) {
+        const attHideFind = hideHeaders?.find((head: any) => head === attHide);
+        if (attHideFind) {
+          return null;
+        } else {
+          return attHide;
+        }
+      } else {
+        return attHide;
+      }
+    })
+    ?.concat(['actions'])
+    .filter((item: string) => {
+      if (hideAllActions) {
+        return item !== 'actions';
+      } else {
+        return item;
+      }
+    })
+    .map((head: any, index: any) => (
+      <th className="!text-white" key={index}>
+        {head}
+      </th>
+    ));
+
+  return (
+    <SimpleGrid className="relative overflow-x-auto">
+      <div style={{ maxHeight: '475px', overflowY: 'scroll' }}>
+        <TableCore striped withBorder withColumnBorders>
+          <thead className="sticky bg-[#4E498D]" style={{ position: 'sticky', top: 0 }}>
+            <tr className="!text-white">{columns ? headCustom : headDefault}</tr>
+          </thead>
+          <tbody>{columns ? columnsAttRows : rows}</tbody>
+        </TableCore>
+      </div>
     </SimpleGrid>
   );
 };

@@ -5,13 +5,10 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "extends": [
-    "eslint:recommended",
-    "prettier",
-    "plugin:@next/next/recommended"
-  ],
+  "extends": ["eslint:recommended", "prettier", "plugin:@next/next/recommended"],
   "env": {
     "es2021": true,
+    "browser": true,
     "node": true
   },
   "plugins": ["react", "react-hooks"],
@@ -20,6 +17,8 @@
     "no-async-promise-executor": "off",
     "require-yield": "off",
     "no-unused-vars": "off",
+    "react/jsx-indent": ["warn", 2],
+    "react/jsx-indent-props": ["warn", 2],
     "react/jsx-sort-props": "warn",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",

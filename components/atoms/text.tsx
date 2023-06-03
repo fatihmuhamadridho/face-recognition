@@ -1,19 +1,47 @@
+import { CSSProperties } from 'react';
+
 interface IText {
-  className?: string;
-  type?: 'h1' | 'h2' | 'p';
   title?: string;
+  fs?: 'italic' | 'normal';
+  fz?: number;
+  fw?: number;
+  ta?: 'start' | 'end' | 'justify' | 'center';
+  size?: number;
+  color?: string;
+  className?: string;
+  style?: CSSProperties;
+  children?: any;
   [key: string]: any;
 }
 
-const Text = ({ className, type, title }: IText) => {
-  switch (type) {
-    case 'h1':
-      return <h1 className={className}>{title}</h1>;
-    case 'h2':
-      return <h2 className={className}>{title}</h2>;
-    default:
-      return <p className={className}>{title}</p>;
-  }
+const Text = ({
+  title,
+  fs,
+  fz,
+  fw,
+  ta,
+  size,
+  color,
+  className,
+  style,
+  children
+}: IText) => {
+  return (
+    <div
+      className={className}
+      style={{
+        ...{
+          fontStyle: fs,
+          fontSize: `${fz || size}px`,
+          fontWeight: fw,
+          color: color,
+          textAlign: ta
+        },
+        ...style
+      }}>
+      {title || children}
+    </div>
+  );
 };
 
 export { Text };

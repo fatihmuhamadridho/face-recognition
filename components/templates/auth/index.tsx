@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { styles } from '@libs';
 import { BackgroundImage } from '@mantine/core';
-import loginBg from '@assets/images/login.png';
+import BG_Login from '@assets/images/login.png';
 
 interface IAuthTemplate {
   title: string;
@@ -15,20 +15,15 @@ const AuthTemplate = ({ title, children }: IAuthTemplate) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <div className={styles('w-full h-full min-w-[100vw] min-h-[100vh]')}>
+      <div className={'h-full min-h-[100vh] w-full min-w-[100vw]'}>
         <BackgroundImage
-          className={styles(
-            'p-6 w-full h-full min-h-[100vh]',
-            'flex items-center justify-center'
-          )}
-          src={loginBg.src}>
+          className={'flex h-full min-h-[100vh] w-full items-center justify-center p-6'}
+          src={BG_Login.src}>
           <div
             className={styles(
-              'w-full max-w-[1152px] h-[450px]',
-              'bg-white',
-              'grid grid-cols-2 place-content-center justify-items-center',
-              'rounded-lg',
-              'overflow-hidden',
+              'grid h-[600px] w-full max-w-[1140px]',
+              'grid-cols-2 place-content-center justify-items-center',
+              'overflow-hidden rounded-[16px] bg-white',
               'allMobile:grid-cols-1'
             )}>
             {children}

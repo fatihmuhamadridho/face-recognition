@@ -1,24 +1,34 @@
-import { styles } from '@libs';
-import { Menu } from '@components/molecules';
-import { useAuthContext, Text } from '@components/atoms';
+import { Text } from '@components/atoms/text';
+import { CSSProperties } from 'react';
 
-const Navbar = () => {
-  const { user: userData } = useAuthContext();
+interface INavbar {
+  title?: string;
+  [key: string]: any;
+}
 
+const styles: { [key: string]: CSSProperties } = {
+  root: {
+    padding: '20px 40px',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: "16px"
+  },
+  avatar: {
+    width: '40px',
+    height: '40px',
+    backgroundColor: '#D9D9D9',
+    borderRadius: '100%'
+  }
+};
+
+const Navbar = ({ title }: INavbar) => {
   return (
-      <div
-        className={styles(
-          'px-5 w-full min-h-[80px]',
-          'bg-[#344293] text-white',
-          'flex items-center justify-between',
-          'shadow-[0px_4px_4px_rgba(0,0,0,0.25)]'
-        )}>
-        <div className={styles('flex items-center', 'space-x-4')}>
-          <Text title="PT CIPTA KARYA ABADI" />
-        </div>
-        <Menu data={userData} />
-      </div>
-
+    <div style={styles.root}>
+      <Text fw={500} fz={32} title={title} />
+      <div style={styles.avatar}></div>
+    </div>
   );
 };
 

@@ -1,18 +1,13 @@
-import { Default } from '@components/templates';
-import { styles } from '@libs';
-import { Text } from '@mantine/core';
+import { Default } from '@components/templates/default';
+import { Banner } from '@components/molecules/banner';
 
 export default function EmployeeDashboard() {
   return (
-    <Default title="Dashboard">
-      <div
-        className={styles(
-          'p-4 m-4 h-[120px]',
-          'bg-[#344293] text-white',
-          'rounded-lg'
-        )}>
-        <Text size={24}>Selamat Datang, superadmin</Text>
-      </div>
+    <Default title='Dashboard'>
+      <Banner
+        subTitle="Nikmati kemudahan layanan kami sesuai kebutuhan Anda, pilih dan masuk ke layanan yang tersedia dibawah ini."
+        title="Selamat Datang, Superadmin!"
+      />
     </Default>
   );
 }

@@ -1,10 +1,16 @@
-import { geolocation, styles, useQueryClient } from '@libs';
+import { geolocation, useQueryClient } from '@libs';
 import { useGetOneAttendance, AttendanceService } from 'services';
+import { CSSProperties } from 'react';
 
-import { useAuthContext, Button, Text } from '@components/atoms';
+import { useAuthContext } from '@components/atoms';
 import { Table } from '@components/molecules';
-import { Default } from '@components/templates';
-import { notification } from '@components/atoms/notification';
+import { Default } from '@components/templates/default';
+import { ModalAttendance } from '@components/organisms/modals/modal_attendance';
+import { ModalIzin } from '@components/organisms/modals/modal_izin';
+
+const styles: { [key: string]: CSSProperties } = {
+  root: {}
+};
 
 export default function EmployeeKehadiran() {
   const queryClient = useQueryClient();
@@ -19,21 +25,19 @@ export default function EmployeeKehadiran() {
 
     if (distance >= 10000000) {
       console.log('distance', distance);
-      notification.warning('Jarak anda teralalu jauh dari kantor');
+      // notification.warning('Jarak anda teralalu jauh dari kantor');
       return console.warn('Your distance is too far from the office');
     }
 
     try {
-      const response = await AttendanceService.postAttendance(
-        user?.login_token
-      );
+      const response = await AttendanceService.postAttendance(user?.login_token);
       if (response.status === 200) {
         queryClient.invalidateQueries(['getOneAttendance']);
-        notification.success('Berhasil melakukan absensi kehadiran');
+        // notification.success('Berhasil melakukan absensi kehadiran');
       }
     } catch (error: any) {
       console.log(error);
-      notification.failed('Gagal melakukan absensi kehadiran');
+      // notification.failed('Gagal melakukan absensi kehadiran');
     }
   };
 
@@ -41,11 +45,10 @@ export default function EmployeeKehadiran() {
 
   return (
     <Default title="Kehadiran">
-      <div className={styles('p-5', 'space-y-4')}>
-        <Text title="Kehadiran" />
-        <div className={styles('space-x-3')}>
-          <Button onClick={handleAttendance} title="Absen" />
-          <Button title="Izin" />
+      <div className={'space-y-4'}>
+        <div className={'flex justify-between space-x-4'}>
+          <ModalAttendance />
+          <ModalIzin />
         </div>
         <Table
           columns={[

@@ -14,6 +14,7 @@ interface IInput {
 const Input = ({ label, type, name, onChange, value, hideLabel }: IInput) => {
   return (
     <InputCore.Wrapper
+      className="w-full"
       label={!hideLabel ? label || name?.toLocaleUpperCase() : undefined}>
       <InputCore name={name} onChange={onChange} type={type} value={value} />
     </InputCore.Wrapper>

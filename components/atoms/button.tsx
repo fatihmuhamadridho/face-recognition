@@ -1,26 +1,28 @@
-import { Button as ButtonCore } from '@mantine/core';
+import { CSSProperties } from 'react';
 
 interface IButton {
-  type?: 'submit' | 'button';
-  variant?: 'default';
-  // eslint-disable-next-line no-unused-vars
+  title?: string;
+  className?: string;
+  type?: 'button' | 'submit';
+  style?: CSSProperties;
   onClick?: (event: any) => void;
   children?: any;
-  title?: string;
   [key: string]: any;
 }
 
-const Button = ({
-  type = 'button',
-  variant = 'default',
-  onClick,
-  title,
-  children
-}: IButton) => {
+const styles: { [key: string]: CSSProperties } = {
+  root: {
+    padding: '7px 0px',
+    width: '100%',
+    backgroundColor: "#D9D9D9"
+  }
+};
+
+const Button = ({ title, className, type, style, onClick, children }: IButton) => {
   return (
-    <ButtonCore onClick={onClick || undefined} type={type} variant={variant}>
-      {children || title}
-    </ButtonCore>
+    <button className={className} onClick={onClick} style={{ ...styles.root, ...style }} type={type}>
+      {title || children}
+    </button>
   );
 };
 

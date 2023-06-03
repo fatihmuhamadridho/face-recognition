@@ -1,47 +1,72 @@
 import Head from 'next/head';
-import { styles } from '@libs';
-import { Navbar } from '@components/organisms';
-import { Sidebar } from '@components/organisms';
-import { useState } from 'react';
-import { IconHome, IconNotebook } from '@tabler/icons-react';
-import { useAuthContext } from '@components/atoms';
+import { Sidebar } from '@components/organisms/sidebar';
+import { CSSProperties } from 'react';
+import { IconHome2 } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
+import { Navbar } from '@components/organisms/navbar';
 
 interface IDefault {
-  className?: string[];
-  title: string;
+  title?: string;
   children?: any;
   [key: string]: any;
 }
 
-const Default = ({ title, children }: IDefault) => {
-  const { user: userData } = useAuthContext();
-  const [expandSidebar, setExpandSidebar] = useState<boolean>(false);
+const styles: { [key: string]: CSSProperties } = {
+  root: {
+    display: 'flex'
+  },
+  container: {
+    width: '100%',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
+  },
+  content: {
+    padding: '25px 40px',
+    width: '100%'
+  }
+};
 
-  const routesSuperadmin = [
-    { label: 'Dashboard', endpoint: '/admin', icon: <IconHome /> },
+const Default = ({ title, children }: IDefault) => {
+  const router = useRouter();
+
+  const topRoutes = [
     {
-      label: 'Kehadiran',
-      endpoint: '/admin/kehadiran',
-      icon: <IconNotebook />
+      title: 'Dashboard',
+      path: "/employee",
+      icon: <IconHome2 color="white" />,
+      onClick: () => router.push('/employee')
     },
     {
-      label: 'User',
-      endpoint: '/admin/user',
-      icon: <IconNotebook />
+      title: 'Kehadiran',
+      path: "/employee/kehadiran",
+      icon: <IconHome2 color="white" />,
+      onClick: () => router.push('/employee/kehadiran')
     },
     {
-      label: 'Setting',
-      endpoint: '/admin/setting',
-      icon: <IconNotebook />
+      title: 'Users',
+      path: "/employee/user",
+      icon: <IconHome2 color="white" />,
+      onClick: () => router.push('/employee/user')
     }
   ];
 
-  const routesPegawai = [
-    { label: 'Dashboard', endpoint: '/employee', icon: <IconHome /> },
+  const bottomRoutes = [
     {
-      label: 'Kehadiran',
-      endpoint: '/employee/kehadiran',
-      icon: <IconNotebook />
+      title: 'Settings',
+      path: "/employee/settings",
+      icon: <IconHome2 color="white" />,
+      onClick: () => router.push('/employee')
+    },
+    {
+      title: 'Logout',
+      path: "/employee/logout",
+      icon: <IconHome2 color="white" />,
+      onClick: () => {
+        localStorage.clear();
+        router.push('/');
+      }
     }
   ];
 
@@ -50,35 +75,16 @@ const Default = ({ title, children }: IDefault) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <div
-        className={styles(
-          'w-full h-full min-h-[100vh]',
-          'flex flex-col justify-between'
-        )}>
-        <Navbar />
-        <div
-          className={styles(
-            'w-full h-full min-h-[calc(100vh-80px)]',
-            'flex flex-row'
-          )}>
-          <Sidebar
-            open={expandSidebar}
-            routes={userData?.RoleId === 1 ? routesSuperadmin : routesPegawai}
-            routesDivider={[3]}
-            setOpen={(e: any) => setExpandSidebar(e)}
-          />
-          <div
-            className={styles(
-              `${
-                expandSidebar
-                  ? '!w-[calc(100vw-240px)]'
-                  : '!w-[calc(100vw-80px)]'
-              }`,
-              'w-full h-full min-h-[calc(100vh-80px)]',
-              'flex flex-col justify-between'
-            )}>
-            {children}
-          </div>
+      <div style={styles.root}>
+        <Sidebar
+          activePath={router.asPath}
+          bottomRoutes={bottomRoutes}
+          onClickLogo={() => router.push('/employee')}
+          topRoutes={topRoutes}
+        />
+        <div style={styles.container}>
+          <Navbar title={title} />
+          <div style={styles.content}>{children}</div>
         </div>
       </div>
     </>
