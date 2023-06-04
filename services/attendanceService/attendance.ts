@@ -9,6 +9,10 @@ export class AttendanceService {
     attendance: '/attendance'
   };
 
+  static getAllAttendance() {
+    return apiClient.get(this.ApiEndpoint.attendance);
+  }
+
   static getOneAttendance(credential: string) {
     return apiClient.get(this.ApiEndpoint.attendance + '/' + credential);
   }

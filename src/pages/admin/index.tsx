@@ -1,12 +1,13 @@
-import { Default } from '@components/templates';
-import { Text } from '@mantine/core';
+import { Default } from '@components/templates/default';
+import { Banner } from '@components/molecules/banner';
 
 export default function AdminDashboard() {
   return (
-    <Default title="User">
-      <div>
-        <Text>Selamat Datang, superadmin</Text>
-      </div>
+    <Default title='Dashboard'>
+      <Banner
+        subTitle="Nikmati kemudahan layanan kami sesuai kebutuhan Anda, pilih dan masuk ke layanan yang tersedia dibawah ini."
+        title="Selamat Datang, Superadmin!"
+      />
     </Default>
   );
 }

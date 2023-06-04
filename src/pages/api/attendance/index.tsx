@@ -7,10 +7,17 @@ const handler = nextConnect();
 handler.get(async (req: any, res: any) => {
   try {
     await sequelize.authenticate();
-    const getAllAttendance = await Attendance.findAll({});
+    const getAllAttendance = await Attendance.findAll({ include: User });
+    const result = getAllAttendance.map((att) => {
+      return {
+        ...att.toJSON(),
+        User: undefined,
+        ...att.toJSON().User
+      };
+    });
     res.status(200).json({
       status: true,
-      data: getAllAttendance
+      data: result
     });
   } catch (error: any) {
     res.status(500).json({ status: false, message: error.parent });

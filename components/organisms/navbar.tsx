@@ -1,4 +1,5 @@
 import { Text } from '@components/atoms/text';
+import { Avatar, Image } from '@mantine/core';
 import { CSSProperties } from 'react';
 
 interface INavbar {
@@ -13,7 +14,7 @@ const styles: { [key: string]: CSSProperties } = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: "16px"
+    gap: '16px'
   },
   avatar: {
     width: '40px',
@@ -27,7 +28,10 @@ const Navbar = ({ title }: INavbar) => {
   return (
     <div style={styles.root}>
       <Text fw={500} fz={32} title={title} />
-      <div style={styles.avatar}></div>
+      <div className='flex items-center space-x-3'>
+        <Avatar alt="avatar" radius={"xl"}  size={35} src={'https://i.pravatar.cc/57?img=3'} />
+        <Text fw={300} fz={18}>Superadmin</Text>
+      </div>
     </div>
   );
 };

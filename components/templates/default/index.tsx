@@ -4,6 +4,7 @@ import { CSSProperties } from 'react';
 import { IconHome2 } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Navbar } from '@components/organisms/navbar';
+import { useAuthContext } from '@components/atoms';
 
 interface IDefault {
   title?: string;
@@ -30,8 +31,10 @@ const styles: { [key: string]: CSSProperties } = {
 
 const Default = ({ title, children }: IDefault) => {
   const router = useRouter();
+  const { user } = useAuthContext();
+  console.log(user);
 
-  const topRoutes = [
+  const pegawaiTopRoutes = [
     {
       title: 'Dashboard',
       path: "/employee",
@@ -44,21 +47,36 @@ const Default = ({ title, children }: IDefault) => {
       icon: <IconHome2 color="white" />,
       onClick: () => router.push('/employee/kehadiran')
     },
+  ];
+
+  const adminTopRoutes = [
+    {
+      title: 'Dashboard',
+      path: "/admin",
+      icon: <IconHome2 color="white" />,
+      onClick: () => router.push('/admin')
+    },
+    {
+      title: 'Kehadiran',
+      path: "/admin/kehadiran",
+      icon: <IconHome2 color="white" />,
+      onClick: () => router.push('/admin/kehadiran')
+    },
     {
       title: 'Users',
-      path: "/employee/user",
+      path: "/admin/user",
       icon: <IconHome2 color="white" />,
-      onClick: () => router.push('/employee/user')
+      onClick: () => router.push('/admin/user')
     }
   ];
 
   const bottomRoutes = [
-    {
-      title: 'Settings',
-      path: "/employee/settings",
-      icon: <IconHome2 color="white" />,
-      onClick: () => router.push('/employee')
-    },
+    // {
+    //   title: 'Settings',
+    //   path: "/employee/settings",
+    //   icon: <IconHome2 color="white" />,
+    //   onClick: () => router.push('/employee')
+    // },
     {
       title: 'Logout',
       path: "/employee/logout",
@@ -80,7 +98,7 @@ const Default = ({ title, children }: IDefault) => {
           activePath={router.asPath}
           bottomRoutes={bottomRoutes}
           onClickLogo={() => router.push('/employee')}
-          topRoutes={topRoutes}
+          topRoutes={user?.RoleId === 1 ? adminTopRoutes : pegawaiTopRoutes}
         />
         <div style={styles.container}>
           <Navbar title={title} />
