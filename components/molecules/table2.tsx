@@ -1,33 +1,21 @@
 import { clsx, Table as TableCore } from '@mantine/core';
 
 interface ITable {
-    header?: any;
-    data?: any;
-    pagination?: any;
-    limit?: any;
-    handleRowClick?: any;
-    [key: string]: any
+  header?: any;
+  data?: any;
+  pagination?: any;
+  limit?: any;
+  handleRowClick?: any;
+  [key: string]: any;
 }
 
 const Table = ({ header, data, pagination, limit, handleRowClick }: ITable) => {
   return (
-    <TableCore
-      className="!border-collapse"
-    >
+    <TableCore className="!border-collapse">
       <thead>
         <tr>
           {header?.map((item: any, idx: any) => (
-            <th
-              key={idx}
-              style={{
-                width: item.width,
-                padding: '12px',
-                color: '#6B7280',
-                fontSize: '12px',
-                fontWeight: 500
-              }}>
-              {item.label}
-            </th>
+            <th key={idx}>{item.label}</th>
           ))}
         </tr>
       </thead>
@@ -52,13 +40,7 @@ const Table = ({ header, data, pagination, limit, handleRowClick }: ITable) => {
                         typeof handleRowClick === 'function'
                         //  && styles.rowClick
                       )}
-                      key={`${key}-${index}`}
-                      style={{
-                        padding: '18px 12px',
-                        color: '#6B7280',
-                        fontSize: '14px',
-                        fontWeight: 300
-                      }}>
+                      key={`${key}-${index}`}>
                       {typeof key === 'function' ? key(row, index) : row[key]}
                     </td>
                   );
@@ -84,12 +66,6 @@ const Table = ({ header, data, pagination, limit, handleRowClick }: ITable) => {
                           && typeof key !== 'function'
                         )
                           handleRowClick(row);
-                      }}
-                      style={{
-                        padding: '18px 12px',
-                        color: '#6B7280',
-                        fontSize: '14px',
-                        fontWeight: 300
                       }}>
                       {typeof key === 'function' ? key(row, index) : row[key]}
                     </td>

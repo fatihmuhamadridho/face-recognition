@@ -48,7 +48,7 @@ const ModalIzin = () => {
 
       <Button onClick={onOpen} style={styles.button}>
         <Text style={styles.button_head} title="Izin" />
-        <Text style={styles.button_subhead} title="Lorem ipsum dolor sit amet," />
+        <Text style={styles.button_subhead} title="Bila ingin melakukan izin" />
       </Button>
     </>
   );

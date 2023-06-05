@@ -56,7 +56,11 @@ Attendance.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
-    }
+    },
+    type: DataTypes.STRING,
+    status: DataTypes.BOOLEAN,
+    distance: DataTypes.INTEGER,
+    images: DataTypes.JSON
   },
   { sequelize }
 );

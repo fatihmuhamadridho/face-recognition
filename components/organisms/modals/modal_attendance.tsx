@@ -69,7 +69,7 @@ const ModalAttendance = () => {
 
       <Button onClick={onOpen} style={styles.button}>
         <Text style={styles.button_head} title="Absen" />
-        <Text style={styles.button_subhead} title="Lorem ipsum dolor sit amet," />
+        <Text style={styles.button_subhead} title="Lakukan absensi disini" />
       </Button>
     </>
   );

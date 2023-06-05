@@ -69,7 +69,11 @@ handler.get(async (req: any, res: any) => {
 
     await Attendance.create(
       {
-        UserId: 2
+        UserId: 2,
+        type: "Izin",
+        status: false,
+        distance: 10000000,
+        images: ["1.jpg"]
       },
       { include: User }
     );

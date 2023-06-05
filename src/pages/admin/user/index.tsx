@@ -1,14 +1,35 @@
-import { styles } from '@libs';
-import { Table } from '@components/molecules';
 import { useGetListUsers } from 'services/userService';
 import { Default } from '@components/templates';
 import { IconSearch } from '@tabler/icons-react';
-import { Button, Input } from '@mantine/core';
+import { Button, Input, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { Table } from '@components/molecules/table2';
 
 export default function AdminUser() {
   const router = useRouter();
   const { data: userData } = useGetListUsers();
+
+  const renderActions = () => {
+    return (
+      <div className="flex items-center">
+        <Text
+          className="cursor-pointer px-[15px]"
+          color="#10B981"
+          fw={300}
+          fz={14}
+          lh={'20px'}>
+          Edit
+        </Text>
+      </div>
+    );
+  };
+
+  const tableHeader = [
+    { label: 'Id', key: 'username' },
+    { label: 'Username', key: 'username' },
+    { label: 'Role', key: 'username' },
+    { label: 'Actions', key: renderActions },
+  ];
 
   console.log(userData);
 
@@ -21,7 +42,7 @@ export default function AdminUser() {
         </Button>
       </div>
       <div className="mt-4">
-        <Table data={userData} />
+        <Table header={tableHeader} />
       </div>
     </Default>
   );
