@@ -17,7 +17,6 @@ const styles: { [key: string]: CSSProperties } = {
     padding: '24px 32px',
     gap: '4px',
     width: '100%',
-    maxWidth: '532px',
     height: '120px',
     background: '#434076',
     borderRadius: '16px',

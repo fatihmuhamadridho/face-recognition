@@ -69,7 +69,7 @@ export default function EmployeeKehadiran() {
   return (
     <Default title="Kehadiran">
       <div className={'space-y-4'}>
-        <div className={'flex justify-between space-x-4'}>
+        <div className={'flex space-x-4'}>
           <ModalAttendance />
           <ModalIzin />
         </div>
