@@ -13,6 +13,7 @@ const styles: { [key: string]: CSSProperties } = {
   },
   button: {
     display: 'flex',
+    textAlign: "start",
     flexDirection: 'column',
     padding: '24px 32px',
     gap: '4px',
