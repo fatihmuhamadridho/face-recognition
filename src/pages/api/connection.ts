@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('skripsi_geolocation', 'root', '', {
+const sequelize = new Sequelize('skripsi_geolocation2', 'root', '', {
   host: 'localhost',
   port: 3306,
   dialect: 'mysql',

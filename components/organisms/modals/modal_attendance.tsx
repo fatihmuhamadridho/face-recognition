@@ -96,7 +96,7 @@ const ModalAttendance = () => {
       allowedLongitude: 106.6921108
     });
 
-    if (distance >= 10000000) {
+    if (distance >= 100) {
       console.log('distance', distance);
       return console.warn('Your distance is too far from the office');
     }
