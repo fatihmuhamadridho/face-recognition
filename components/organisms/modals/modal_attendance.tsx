@@ -104,13 +104,14 @@ const ModalAttendance = () => {
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Absen',
-        distance: 100,
+        distance: distance,
         images: imageList,
         description: 'Tepat Waktu'
       });
       if (response.status === 200) {
         await queryClient.invalidateQueries(['getOneAttendance']);
         setImageList([]);
+        setOpened(false);
         // notification.success('Berhasil melakukan absensi kehadiran');
       }
     } catch (error: any) {
