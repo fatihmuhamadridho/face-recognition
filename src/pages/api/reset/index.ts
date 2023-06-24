@@ -41,7 +41,10 @@ handler.get(async (req: any, res: any) => {
         RoleId: 1,
         UserDetail: {
           first_name: 'superadmin',
-          last_name: 'superadmin'
+          last_name: 'superadmin',
+          birth_date: "10-03-2001",
+          gender: "pria",
+          address: "Jl. H. Djiran"
         }
       },
       { include: [Role, UserDetail, Attendance] }
@@ -61,7 +64,10 @@ handler.get(async (req: any, res: any) => {
         RoleId: 2,
         UserDetail: {
           first_name: 'pegawai',
-          last_name: 'pegawai'
+          last_name: 'pegawai',
+          birth_date: "10-03-2001",
+          gender: "pria",
+          address: "Jl. H. Djiran"
         }
       },
       { include: [Role, UserDetail, Attendance] }
@@ -70,10 +76,10 @@ handler.get(async (req: any, res: any) => {
     await Attendance.create(
       {
         UserId: 2,
-        type: "Izin",
-        status: false,
+        status: "Izin",
         distance: 10000000,
-        images: ["1.jpg"]
+        images: ["1.jpg"],
+        description: "awdadaaw"
       },
       { include: User }
     );

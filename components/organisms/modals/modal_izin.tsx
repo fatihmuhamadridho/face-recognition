@@ -3,12 +3,15 @@ import { Modal, Textarea } from '@mantine/core';
 import { useState } from 'react';
 import { Button } from '@components/atoms/button';
 import { Text } from '@components/atoms/text';
+import { AttendanceService } from 'services';
+import { useAuthContext } from '@components/atoms';
+import { useQueryClient } from '@tanstack/react-query';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {},
   button: {
     display: 'flex',
-    textAlign: "start",
+    textAlign: 'start',
     flexDirection: 'column',
     padding: '24px 32px',
     gap: '4px',
@@ -31,18 +34,38 @@ const styles: { [key: string]: CSSProperties } = {
 };
 
 const ModalIzin = () => {
+  const queryClient = useQueryClient();
+  const { user } = useAuthContext();
   const [opened, setOpened] = useState<boolean>(false);
 
   const onOpen = () => setOpened(true);
   const onClose = () => setOpened(false);
 
+  const handleIzin = async () => {
+    try {
+      const response = await AttendanceService.postAttendance(user?.login_token, {
+        status: 'Izin',
+        description: 'Izin karna sakit'
+      });
+
+      if (response.status === 200) {
+        queryClient.invalidateQueries(['getOneAttendance']);
+        console.log(response.data)
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <Modal centered onClose={onClose} opened={opened} size={376}>
-        <div className='space-y-4'>
+        <div className="space-y-4">
           <Text>Alasan tidak masuk</Text>
           <Textarea />
-          <Button className='rounded-[4px]'>Izin</Button>
+          <Button className="rounded-[4px]" onClick={handleIzin} type="button">
+            Izin
+          </Button>
         </div>
       </Modal>
 

@@ -2,11 +2,13 @@ import { Table } from '@components/molecules/table2';
 import { Default } from '@components/templates';
 import { Button, Input, Text } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
+import downloadExcel from 'libs/downloadExcel';
 import { useGetAllAttendance } from 'services/attendanceService';
+import * as XLSX from 'xlsx';
 
 export default function AdminKehadiran() {
   const { data: attendanceData } = useGetAllAttendance();
-  console.log(attendanceData);
+  // console.log(attendanceData);
 
   const renderActions = () => {
     return (
@@ -26,18 +28,39 @@ export default function AdminKehadiran() {
   const tableHeader = [
     { label: 'Username', key: 'username' },
     { label: 'Tanggal Absensi', key: 'createdAt' },
-    { label: 'Waktu Absensi', key: 'createdAt' },
-    { label: 'Tipe', key: 'username' },
-    { label: 'Status', key: 'username' },
-    { label: 'Jarak dengan kantor', key: 'username' },
-    { label: 'Actions', key: renderActions },
+    { label: 'Waktu Absensi', key: 'updatedAt' },
+    { label: 'Status', key: 'status' },
+    { label: 'Jarak dengan kantor', key: 'distance' },
+    { label: 'Actions', key: renderActions }
   ];
+
+  const handleDownloadExcel = async () => {
+    try {
+      await downloadExcel(
+        attendanceData.map((data: any, index: number) => {
+          return {
+            no: index + 1,
+            username: data.username,
+            tanggal_absensi: data.createdAt,
+            waktu_absensi: data.createdAt,
+            status: data.status,
+            jarak_dengan_kantor: data.distance
+          };
+        }),
+        'data-absensi.xlsx'
+      );
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
 
   return (
     <Default title="Kehadiran">
       <div className="flex justify-between">
         <Input icon={<IconSearch size={16} />} />
-        <Button variant="default">Download Data Excel</Button>
+        <Button onClick={handleDownloadExcel} variant="default">
+          Download Data Excel
+        </Button>
       </div>
       <div className="mt-4">
         <Table data={attendanceData} header={tableHeader} />

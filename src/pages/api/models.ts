@@ -30,9 +30,9 @@ UserDetail.init(
     },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
-    birth_date: DataTypes.DATE,
+    birth_date: DataTypes.STRING,
     gender: DataTypes.STRING,
-    position: DataTypes.STRING
+    address: DataTypes.STRING
   },
   { sequelize }
 );
@@ -57,10 +57,10 @@ Attendance.init(
       autoIncrement: true,
       primaryKey: true
     },
-    type: DataTypes.STRING,
-    status: DataTypes.BOOLEAN,
+    status: DataTypes.STRING,
     distance: DataTypes.INTEGER,
-    images: DataTypes.JSON
+    images: DataTypes.JSON,
+    description: DataTypes.STRING,
   },
   { sequelize }
 );

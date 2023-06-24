@@ -32,7 +32,7 @@ const styles: { [key: string]: CSSProperties } = {
 const Default = ({ title, children }: IDefault) => {
   const router = useRouter();
   const { user } = useAuthContext();
-  console.log(user);
+  // console.log(user);
 
   const pegawaiTopRoutes = [
     {

@@ -5,7 +5,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "extends": ["eslint:recommended", "prettier", "plugin:@next/next/recommended"],
+  "extends": ["prettier", "plugin:@next/next/recommended"],
   "env": {
     "es2021": true,
     "browser": true,

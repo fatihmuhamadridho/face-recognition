@@ -25,16 +25,25 @@ handler.get(async (req: any, res: any) => {
 });
 
 handler.post(async (req: any, res: any) => {
+  const { status, distance, images, description } = req.body;
   const { authorization } = req.headers;
+
   try {
     await sequelize.authenticate();
     const findUser = await User.findOne({
       where: { login_token: authorization.split('Bearer ')[1] }
     });
     const createAttendace = await Attendance.create(
-      { UserId: findUser?.toJSON().id },
+      {
+        UserId: findUser?.toJSON().id,
+        status,
+        distance,
+        images,
+        description
+      },
       { include: User }
     );
+    
     res.status(200).json({
       status: true,
       data: createAttendace

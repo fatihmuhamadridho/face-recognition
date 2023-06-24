@@ -5,7 +5,14 @@ import { QueryClient, QueryClientProvider } from '@libs';
 import { MantineProvider } from '@mantine/core';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        cacheTime: 5 * 60 * 1000,
+      },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -15,3 +15,18 @@ export const useGetListUsers = () => {
 
   return { data, status, isFetching };
 };
+
+export const useGetDetailUser = (id: number) => {
+  const { data, status, isFetching } = useQuery({
+    key: ['detailUser', id],
+    fetchAction: async () => {
+      const response = await UserService.getDetailUser(id);
+      return response;
+    },
+    select: (data: any) => {
+      return data?.data?.data;
+    }
+  });
+
+  return { data, status, isFetching };
+};

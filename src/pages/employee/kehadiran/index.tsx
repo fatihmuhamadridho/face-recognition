@@ -14,33 +14,8 @@ const styles: { [key: string]: CSSProperties } = {
 };
 
 export default function EmployeeKehadiran() {
-  const queryClient = useQueryClient();
   const { user } = useAuthContext();
   const { data: attendanceData } = useGetOneAttendance(user?.login_token);
-
-  const handleAttendance = async () => {
-    const distance: any = await geolocation({
-      allowedLatitude: -6.2244171,
-      allowedLongitude: 106.6921108
-    });
-
-    if (distance >= 10000000) {
-      console.log('distance', distance);
-      // notification.warning('Jarak anda teralalu jauh dari kantor');
-      return console.warn('Your distance is too far from the office');
-    }
-
-    try {
-      const response = await AttendanceService.postAttendance(user?.login_token);
-      if (response.status === 200) {
-        queryClient.invalidateQueries(['getOneAttendance']);
-        // notification.success('Berhasil melakukan absensi kehadiran');
-      }
-    } catch (error: any) {
-      console.log(error);
-      // notification.failed('Gagal melakukan absensi kehadiran');
-    }
-  };
 
   const renderActions = () => {
     return (
@@ -59,12 +34,12 @@ export default function EmployeeKehadiran() {
 
   const tableHeader = [
     { label: 'Tanggal', key: 'createdAt' },
-    { label: 'Tipe', key: 'type' },
+    { label: 'Waktu', key: 'updatedAt' },
     { label: 'Status', key: 'status' },
-    { label: 'Actions', key: renderActions },
+    { label: 'Jarak', key: 'distance' },
+    { label: 'Keterangan', key: 'description' },
+    { label: 'Actions', key: renderActions }
   ];
-
-  console.log(attendanceData);
 
   return (
     <Default title="Kehadiran">

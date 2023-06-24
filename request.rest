@@ -1,7 +1,43 @@
-###
+#######################################################################################
 GET http://localhost:3000/api/user
 
 ###
+GET http://localhost:3000/api/user/3
+
+###
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+    "username": "superadmin",
+    "password": "superadmin",
+    "first_name": "Super",
+    "last_name": "Admin",
+    "birth_date": "10-03-2001",
+    "gender": "pria",
+    "address": "H. Djiran",
+    "RoleId": "2"
+}
+
+###
+PUT http://localhost:3000/api/user/3
+Content-Type: application/json
+
+{
+    "username": "admin123",
+    "password": "admin123",
+    "first_name": "admin",
+    "last_name": "123",
+    "birth_date": "10-03-2001",
+    "gender": "pria",
+    "address": "H. Djiran",
+    "RoleId": "1"
+}
+
+###
+DELETE http://localhost:3000/api/user/3
+
+############################################################################################################
 GET http://localhost:3000/api/attendance
 
 ###
@@ -11,7 +47,7 @@ Authorization: Bearer eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
 ###
 GET http://localhost:3000/api/attendance/eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
 
-###
+###############################################################################################################
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
@@ -30,8 +66,14 @@ Content-Type: application/json
     "password": "pegawai"
 }
 
-###
+###############################################################################################################
 GET http://localhost:3000/api/auth/eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
+
+###
+POST http://localhost:3000/api/upload
+
+###
+DELETE http://localhost:3000/api/cancel-upload
 
 ###
 GET http://localhost:3000/api/reset

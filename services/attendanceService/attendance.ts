@@ -17,10 +17,13 @@ export class AttendanceService {
     return apiClient.get(this.ApiEndpoint.attendance + '/' + credential);
   }
 
-  static postAttendance(credential: string) {
+  static postAttendance(
+    credential: string,
+    payload: { status: string; distance?: number; images?: string[]; description: string }
+  ) {
     return apiClient.post(
       this.ApiEndpoint.attendance,
-      {},
+      payload,
       { headers: { Authorization: 'Bearer ' + credential } }
     );
   }
