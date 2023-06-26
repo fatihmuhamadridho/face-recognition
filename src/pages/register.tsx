@@ -1,50 +1,64 @@
 import { Form, useForm } from '@components/molecules';
 import { AuthTemplate } from '@components/templates';
-import { storageHelper, styles } from '@libs';
 import { useRouter } from 'next/navigation';
-import { AuthService, IOnLogin } from 'services';
 import { useAuthContext } from '@components/atoms';
 
 import { Text } from '@components/atoms/text';
-import { Image } from '@mantine/core';
+import { Image, Select } from '@mantine/core';
 import { Input, Button } from '@components/atoms';
 import IMG_Balitbang from '@assets/images/balitbang.png';
 import { useState } from 'react';
 import { IconChevronLeft } from '@tabler/icons-react';
+import { DatePickerInput } from '@mantine/dates';
+import dayjs from 'dayjs';
+import { UserService } from 'services/userService/user';
+import { useQueryClient } from '@tanstack/react-query';
+
+interface UserPayload {
+  username: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  birth_date: string | any;
+  gender: string;
+  address: string;
+  RoleId: number | any;
+}
 
 export default function Register() {
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const { setUser } = useAuthContext();
   const [step, setStep] = useState<number>(0);
   const { handleChange, handleSubmit, values } = useForm({
     initialValues: {
       username: '',
-      password: ''
+      password: '',
+      first_name: '',
+      last_name: '',
+      birth_date: dayjs(new Date()).format('MM-DD-YYYY'),
+      gender: '',
+      address: '',
+      RoleId: 0
     },
-    onSubmit: (values: IOnLogin) => console.log(values)
+    onSubmit: (values: UserPayload) => handleRegister(values)
   });
 
-  const handleLogin = async (values: IOnLogin) => {
-    console.log(values);
+  const handleRegister = async (payload: UserPayload) => {
     try {
-      const response = await AuthService.onLogin(values);
-      if (response.status === 200) {
-        setUser(response.data.data);
-        storageHelper.set('access_token', response.data.data.login_token);
-        // notification.success('Berhasil login');
-        console.log(response);
+      const { birth_date, ...restPayload } = payload;
 
-        if (response.data.data.RoleId === 1) {
-          router.push('/admin');
-        } else {
-          router.push('/employee');
-        }
-      } else {
-        // notification.failed('Gagal login');
+      const response = await UserService.postUser({
+        birth_date: dayjs(birth_date).format('MM-DD-YYYY'),
+        ...restPayload
+      });
+
+      if (response.status === 200) {
+        console.log(response.data);
+        await queryClient.invalidateQueries(['getOneAttendance']);
+        router.push('/');
       }
     } catch (error: any) {
       console.error(error);
-      // notification.failed('Gagal login');
     }
   };
 
@@ -72,41 +86,54 @@ export default function Register() {
                 label="First Name"
                 name="first_name"
                 onChange={handleChange}
-                value={values.username}
+                value={values.first_name}
               />
               <Input
                 label="Last Name"
                 name="last_name"
                 onChange={handleChange}
-                value={values.username}
+                value={values.last_name}
               />
             </div>
             <div className="flex items-center space-x-2">
-              <Input
+              <Select
+                className="w-full"
+                data={[
+                  { label: 'pria', value: 'pria' },
+                  { label: 'wanita', value: 'wanita' }
+                ]}
                 label="Gender"
                 name="gender"
-                onChange={handleChange}
-                value={values.username}
+                onChange={(e: any) =>
+                  handleChange({ target: { name: 'gender', value: e } })
+                }
+                value={values.gender}
               />
-              <Input
+              <DatePickerInput
+                className="w-full"
                 label="Birthday Date"
-                name="birthday"
-                onChange={handleChange}
-                value={values.username}
+                onChange={(e: any) =>
+                  handleChange({
+                    target: { name: 'birth_date', value: dayjs(e).format('MM-DD-YYYY') }
+                  })
+                }
+                value={new Date(values.birth_date)}
               />
             </div>
             <Input
               label="Address"
               name="address"
               onChange={handleChange}
-              value={values.password}
+              value={values.address}
             />
           </div>
         )}
 
         {step > 0 && (
           <div className="!mt-[32px] flex w-full flex-col space-y-1">
-            <div className="flex items-center w-fit border-none p-0 cursor-pointer space-x-1" onClick={() => setStep(step - 1)}>
+            <div
+              className="flex w-fit cursor-pointer items-center space-x-1 border-none p-0"
+              onClick={() => setStep(step - 1)}>
               <IconChevronLeft size={12} />
               <Text fz={12} title="Back" />
             </div>
@@ -114,13 +141,24 @@ export default function Register() {
               label="Username"
               name="username"
               onChange={handleChange}
-              value={values.password}
+              value={values.username}
             />
             <Input
               label="Password"
               name="password"
               onChange={handleChange}
               value={values.password}
+            />
+            <Select
+              data={[
+                { label: 'Pegawai', value: '2' }
+              ]}
+              label="Role"
+              name="RoleId"
+              onChange={(e: any) =>
+                handleChange({ target: { name: 'RoleId', value: e } })
+              }
+              value={values.RoleId}
             />
           </div>
         )}

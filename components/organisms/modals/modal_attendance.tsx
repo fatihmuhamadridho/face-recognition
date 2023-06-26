@@ -9,6 +9,7 @@ import { useAuthContext } from '@components/atoms';
 import axios from 'axios';
 import { geolocation, useQueryClient } from '@libs';
 import { UploadService } from 'services/upload/upload';
+import { notifications } from '@mantine/notifications';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {},
@@ -42,7 +43,7 @@ const styles: { [key: string]: CSSProperties } = {
 
 // Helper function to convert data URI to Blob
 function dataURItoBlob(dataURI: any) {
-  const byteString = atob(dataURI.split(',')[1]);
+  const byteString = atob(dataURI?.split(',')[1]);
   const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
   const ab = new ArrayBuffer(byteString.length);
   const ia = new Uint8Array(ab);
@@ -83,8 +84,8 @@ const ModalAttendance = () => {
 
   const onOpen = () => setOpened(true);
   const onClose = async () => {
-    imageList.length > 0 && await UploadService.cancelUpload(imageList)
-    setImageList([])
+    imageList.length > 0 && (await UploadService.cancelUpload(imageList));
+    setImageList([]);
     setOpened(false);
   };
 
@@ -97,8 +98,13 @@ const ModalAttendance = () => {
     });
 
     if (distance >= 100) {
-      console.log('distance', distance);
-      return console.warn('Your distance is too far from the office');
+      setImageList([]);
+      setOpened(false);
+      return notifications.show({
+        title: 'Gagal',
+        message: 'Your distance is too far from the office',
+        color: 'red'
+      });
     }
 
     try {
@@ -110,13 +116,27 @@ const ModalAttendance = () => {
       });
       if (response.status === 200) {
         await queryClient.invalidateQueries(['getOneAttendance']);
+        await notifications.show({
+          title: 'Berhasil',
+          message: 'Berhasil Absensi',
+          color: 'green'
+        });
         setImageList([]);
         setOpened(false);
-        // notification.success('Berhasil melakukan absensi kehadiran');
+      } else {
+        await notifications.show({
+          title: 'Gagal',
+          message: 'Gagal Absensi',
+          color: 'red'
+        });
       }
     } catch (error: any) {
+      await notifications.show({
+        title: 'Gagal',
+        message: 'Gagal Absensi',
+        color: 'red'
+      });
       console.log(error);
-      // notification.failed('Gagal melakukan absensi kehadiran');
     }
   };
 

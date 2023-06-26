@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 import { AuthProvider } from '@components/atoms';
 import { QueryClient, QueryClientProvider } from '@libs';
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -18,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <MantineProvider>
         <AuthProvider>
+          <Notifications position='top-center' />
           <Component {...pageProps} />
         </AuthProvider>
       </MantineProvider>

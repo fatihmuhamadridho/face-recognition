@@ -14,7 +14,7 @@ export default function geolocation(location: {
     lon2 = location.allowedLongitude
   ) {
     const R = 6371; // radius of earth in km
-    console.log(lat2, lat1);
+    // console.log(lat2, lat1);
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
     const a =

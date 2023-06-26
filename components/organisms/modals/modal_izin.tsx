@@ -6,6 +6,7 @@ import { Text } from '@components/atoms/text';
 import { AttendanceService } from 'services';
 import { useAuthContext } from '@components/atoms';
 import { useQueryClient } from '@tanstack/react-query';
+import { geolocation } from '@libs';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {},
@@ -42,14 +43,26 @@ const ModalIzin = () => {
   const onClose = () => setOpened(false);
 
   const handleIzin = async () => {
+    const distance: any = await geolocation({
+      allowedLatitude: -6.2244171,
+      allowedLongitude: 106.6921108
+    });
+
+    if (distance >= 10000000) {
+      console.log('distance', distance);
+      return console.warn('Your distance is too far from the office');
+    }
+
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Izin',
+        distance: distance,
         description: 'Izin karna sakit'
       });
 
       if (response.status === 200) {
-        queryClient.invalidateQueries(['getOneAttendance']);
+        await queryClient.invalidateQueries(['getOneAttendance']);
+        onClose()
         console.log(response.data)
       }
     } catch (error: any) {
