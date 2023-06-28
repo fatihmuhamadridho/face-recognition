@@ -42,7 +42,7 @@ handler.get(async (req: any, res: any) => {
         UserDetail: {
           first_name: 'superadmin',
           last_name: 'superadmin',
-          birth_date: "10-03-2001",
+          birth_date: String(new Date()),
           gender: "pria",
           address: "Jl. H. Djiran"
         }
@@ -65,7 +65,7 @@ handler.get(async (req: any, res: any) => {
         UserDetail: {
           first_name: 'pegawai',
           last_name: 'pegawai',
-          birth_date: "10-03-2001",
+          birth_date: String(new Date()),
           gender: "pria",
           address: "Jl. H. Djiran"
         }

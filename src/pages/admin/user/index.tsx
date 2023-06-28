@@ -7,6 +7,7 @@ import { Table } from '@components/molecules/table2';
 import { ModalValidation } from '@components/organisms/modals/modal_validation';
 import { UserService } from 'services/userService/user';
 import { useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
 export default function AdminUser() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function AdminUser() {
     <Text>{`${data?.UserDetail?.first_name} ${data?.UserDetail?.last_name}`}</Text>
   );
   const renderGender = (data: any) => <Text>{data?.UserDetail?.gender}</Text>;
-  const renderTTL = (data: any) => <Text>{data?.UserDetail?.birth_date}</Text>;
+  const renderTTL = (data: any) => <Text>{dayjs(data?.UserDetail?.birth_date).format("DD-MM-YYYY")}</Text>
   const renderActions = (data: any) => {
     console.log(data.id);
     return (

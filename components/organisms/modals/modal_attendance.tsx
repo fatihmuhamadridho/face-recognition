@@ -97,7 +97,7 @@ const ModalAttendance = () => {
       allowedLongitude: 106.6921108
     });
 
-    if (distance >= 100) {
+    if (distance >= 10000000000000) {
       setImageList([]);
       setOpened(false);
       return notifications.show({

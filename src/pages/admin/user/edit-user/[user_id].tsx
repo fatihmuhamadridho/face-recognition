@@ -27,12 +27,7 @@ export default function AdminUserEditUser() {
 
   const handleEditUser = async (payload: UserPayload) => {
     try {
-      const { birth_date, ...restPayload } = payload;
-
-      const response = await UserService.putUser(Number(router.query.user_id), {
-        birth_date: dayjs(birth_date).format('MM-DD-YYYY'),
-        ...restPayload
-      });
+      const response = await UserService.putUser(Number(router.query.user_id), payload);
 
       if (response.status === 200) {
         console.log(response.data);
@@ -43,6 +38,8 @@ export default function AdminUserEditUser() {
       console.error(error);
     }
   };
+
+  console.log(dayjs(detailUserData?.UserDetail?.birth_date))
 
   return (
     <Default title="Edit User">
@@ -55,7 +52,7 @@ export default function AdminUserEditUser() {
           last_name: detailUserData?.UserDetail?.last_name || '',
           birth_date:
             detailUserData?.UserDetail?.birth_date
-            || dayjs(new Date()).format('MM-DD-YYYY'),
+            || new Date(),
           gender: detailUserData?.UserDetail?.gender || '',
           address: detailUserData?.username || '',
           RoleId: String(detailUserData?.RoleId) || '0'
@@ -93,7 +90,7 @@ export default function AdminUserEditUser() {
                   className="w-full"
                   label="Birthday Date"
                   onChange={(e: any) =>
-                    setFieldValue('birth_date', dayjs(e).format('MM-DD-YYYY'))
+                    setFieldValue('birth_date', e)
                   }
                   value={new Date(values.birth_date)}
                 />

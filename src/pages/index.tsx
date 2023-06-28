@@ -70,6 +70,7 @@ export default function Login() {
             value={values.username}
           />
           <Input
+            type='text'
             label="Password"
             name="password"
             onChange={handleChange}

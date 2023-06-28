@@ -2,7 +2,7 @@ import { Input as InputCore } from '@mantine/core';
 
 interface IInput {
   label?: string;
-  type?: 'text' | 'number';
+  type?: 'text' | 'number' | 'password';
   name?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (event: any) => void;

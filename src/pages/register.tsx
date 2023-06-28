@@ -10,7 +10,6 @@ import IMG_Balitbang from '@assets/images/balitbang.png';
 import { useState } from 'react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { DatePickerInput } from '@mantine/dates';
-import dayjs from 'dayjs';
 import { UserService } from 'services/userService/user';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -35,7 +34,7 @@ export default function Register() {
       password: '',
       first_name: '',
       last_name: '',
-      birth_date: dayjs(new Date()).format('MM-DD-YYYY'),
+      birth_date: new Date(),
       gender: '',
       address: '',
       RoleId: 0
@@ -45,12 +44,7 @@ export default function Register() {
 
   const handleRegister = async (payload: UserPayload) => {
     try {
-      const { birth_date, ...restPayload } = payload;
-
-      const response = await UserService.postUser({
-        birth_date: dayjs(birth_date).format('MM-DD-YYYY'),
-        ...restPayload
-      });
+      const response = await UserService.postUser(payload);
 
       if (response.status === 200) {
         console.log(response.data);
@@ -114,7 +108,7 @@ export default function Register() {
                 label="Birthday Date"
                 onChange={(e: any) =>
                   handleChange({
-                    target: { name: 'birth_date', value: dayjs(e).format('MM-DD-YYYY') }
+                    target: { name: 'birth_date', value: e }
                   })
                 }
                 value={new Date(values.birth_date)}

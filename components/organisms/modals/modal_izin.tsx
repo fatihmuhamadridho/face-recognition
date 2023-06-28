@@ -44,14 +44,9 @@ const ModalIzin = () => {
 
   const handleIzin = async () => {
     const distance: any = await geolocation({
-      allowedLatitude: -6.2244171,
-      allowedLongitude: 106.6921108
+      allowedLatitude: -6.2175477,
+      allowedLongitude: 106.6715803,
     });
-
-    if (distance >= 10000000) {
-      console.log('distance', distance);
-      return console.warn('Your distance is too far from the office');
-    }
 
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
