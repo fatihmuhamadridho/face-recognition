@@ -9,7 +9,7 @@ const date = new Date();
 handler.get(async (req: any, res: any) => {
   try {
     await sequelize.authenticate();
-    const getAllUsers = await User.findAll({ include: UserDetail });
+    const getAllUsers = await User.findAll({ include: UserDetail, order: [['createdAt', 'DESC']] });
     res.status(200).json({
       status: true,
       data: getAllUsers

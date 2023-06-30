@@ -3,12 +3,12 @@ import { Default } from '@components/templates';
 import { Button, Input, Text } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import downloadExcel from 'libs/downloadExcel';
+import { useState } from 'react';
 import { useGetAllAttendance } from 'services/attendanceService';
-import * as XLSX from 'xlsx';
 
 export default function AdminKehadiran() {
   const { data: attendanceData } = useGetAllAttendance();
-  // console.log(attendanceData);
+  const [searchInput, setSearchInput] = useState<string>('');
 
   const renderActions = () => {
     return (
@@ -31,7 +31,7 @@ export default function AdminKehadiran() {
     { label: 'Waktu Absensi', key: 'updatedAt' },
     { label: 'Status', key: 'status' },
     { label: 'Jarak dengan kantor', key: 'distance' },
-    { label: 'Actions', key: renderActions }
+    { label: "Keterangan", key: "description" }
   ];
 
   const handleDownloadExcel = async () => {
@@ -44,7 +44,8 @@ export default function AdminKehadiran() {
             tanggal_absensi: data.createdAt,
             waktu_absensi: data.createdAt,
             status: data.status,
-            jarak_dengan_kantor: data.distance
+            jarak_dengan_kantor: data.distance,
+            keterangan: data.description
           };
         }),
         'data-absensi.xlsx'
@@ -57,13 +58,34 @@ export default function AdminKehadiran() {
   return (
     <Default title="Kehadiran">
       <div className="flex justify-between">
-        <Input icon={<IconSearch size={16} />} />
+        <Input
+          icon={<IconSearch size={16} />}
+          onChange={(e: any) => setSearchInput(e.target.value)}
+          placeholder="Cari username"
+          value={searchInput}
+        />
         <Button onClick={handleDownloadExcel} variant="default">
           Download Data Excel
         </Button>
       </div>
       <div className="mt-4">
-        <Table data={attendanceData} header={tableHeader} />
+        <Table
+          data={attendanceData?.filter((val: any) => {
+            if (
+              searchInput !== ''
+            ) {
+              if (String(val.username).toLowerCase().includes(searchInput.toLowerCase())) {
+                return val
+              } else {
+                return null
+              }
+            }
+
+            return val;
+          })}
+          header={tableHeader}
+          height={550}
+        />
       </div>
     </Default>
   );

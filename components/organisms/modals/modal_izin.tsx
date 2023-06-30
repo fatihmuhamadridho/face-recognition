@@ -7,6 +7,9 @@ import { AttendanceService } from 'services';
 import { useAuthContext } from '@components/atoms';
 import { useQueryClient } from '@tanstack/react-query';
 import { geolocation } from '@libs';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import { notifications } from '@mantine/notifications';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {},
@@ -39,28 +42,50 @@ const ModalIzin = () => {
   const { user } = useAuthContext();
   const [opened, setOpened] = useState<boolean>(false);
 
+  const validationSchema = yup.object().shape({
+    description: yup.string().required('Description is required')
+  });
+
   const onOpen = () => setOpened(true);
   const onClose = () => setOpened(false);
 
-  const handleIzin = async () => {
+  const handleIzin = async (values: any) => {
     const distance: any = await geolocation({
       allowedLatitude: -6.2175477,
-      allowedLongitude: 106.6715803,
+      allowedLongitude: 106.6715803
     });
+
+    if (values.description === '') return null;
 
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Izin',
         distance: distance,
-        description: 'Izin karna sakit'
+        description: values.description
       });
 
       if (response.status === 200) {
         await queryClient.invalidateQueries(['getOneAttendance']);
-        onClose()
-        console.log(response.data)
+        await notifications.show({
+          title: 'Berhasil',
+          message: 'Berhasil Izin',
+          color: 'green'
+        });
+        onClose();
+        console.log(response.data);
+      } else {
+        await notifications.show({
+          title: 'Gagal',
+          message: 'Gagal Izin',
+          color: 'red'
+        });
       }
     } catch (error: any) {
+      await notifications.show({
+        title: 'Gagal',
+        message: 'Gagal Izin',
+        color: 'red'
+      });
       console.error(error);
     }
   };
@@ -68,13 +93,28 @@ const ModalIzin = () => {
   return (
     <>
       <Modal centered onClose={onClose} opened={opened} size={376}>
-        <div className="space-y-4">
-          <Text>Alasan tidak masuk</Text>
-          <Textarea />
-          <Button className="rounded-[4px]" onClick={handleIzin} type="button">
-            Izin
-          </Button>
-        </div>
+        <Formik
+          initialValues={{ description: '' }}
+          onSubmit={(values: any) => handleIzin(values)}
+          validationSchema={validationSchema}>
+          {({ values, handleSubmit, setFieldValue, touched, errors }) => (
+            <Form           className="space-y-4" onSubmit={handleSubmit}>
+              <Text>Alasan tidak masuk</Text>
+              <Textarea
+                error={
+                  touched.description && errors.description
+                    ? String(errors.description)
+                    : ''
+                }
+                onChange={(e) => setFieldValue('description', e.target.value)}
+                value={values.description}
+              />
+              <Button className="rounded-[4px]" type="submit">
+                Izin
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </Modal>
 
       <Button onClick={onOpen} style={styles.button}>

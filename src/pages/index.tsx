@@ -1,24 +1,33 @@
 import { Form, useForm } from '@components/molecules';
 import { AuthTemplate } from '@components/templates';
-import { storageHelper, styles } from '@libs';
+import { storageHelper } from '@libs';
 import { useRouter } from 'next/navigation';
 import { AuthService, IOnLogin } from 'services';
 import { useAuthContext } from '@components/atoms';
 
 import { Text } from '@components/atoms/text';
-import { Image } from '@mantine/core';
-import { Input, Button } from '@components/atoms';
+import { Image, PasswordInput, TextInput } from '@mantine/core';
+import { Button } from '@components/atoms';
+import * as yup from 'yup';
 import IMG_Balitbang from '@assets/images/balitbang.png';
+import { notifications } from '@mantine/notifications';
 
 export default function Login() {
   const router = useRouter();
   const { setUser } = useAuthContext();
-  const { handleChange, handleSubmit, values } = useForm({
+
+  const validationSchema = yup.object().shape({
+    username: yup.string().required('Username is required'),
+    password: yup.string().required('Password is required')
+  });
+
+  const { handleChange, handleSubmit, values, errors, touched } = useForm({
     initialValues: {
       username: '',
       password: ''
     },
-    onSubmit: (values: IOnLogin) => handleLogin(values)
+    onSubmit: (values: IOnLogin) => handleLogin(values),
+    validationSchema: validationSchema
   });
 
   const handleLogin = async (values: IOnLogin) => {
@@ -27,8 +36,12 @@ export default function Login() {
       const response = await AuthService.onLogin(values);
       if (response.status === 200) {
         setUser(response.data.data);
-        storageHelper.set('access_token', response.data.data.login_token);
-        // notification.success('Berhasil login');
+        storageHelper?.set('access_token', response.data.data.login_token);
+        await notifications.show({
+          title: 'Berhasil',
+          message: 'Berhasil Login',
+          color: 'green'
+        });
         console.log(response);
 
         if (response.data.data.RoleId === 1) {
@@ -37,11 +50,19 @@ export default function Login() {
           router.push('/employee');
         }
       } else {
-        // notification.failed('Gagal login');
+        await notifications.show({
+          title: 'Gagal',
+          message: 'Gagal Login',
+          color: 'red'
+        });
       }
     } catch (error: any) {
       console.error(error);
-      // notification.failed('Gagal login');
+      await notifications.show({
+        title: 'Gagal',
+        message: 'Gagal Login',
+        color: 'red'
+      });
     }
   };
 
@@ -52,25 +73,29 @@ export default function Login() {
         handleSubmit={handleSubmit}
         hideDefaultButton
         hideDefaultInput>
-        <Image
-          alt="favicon.ico"
-          height={110}
-          radius={16}
-          src={'favicon.ico'}
-          width={105}
-        />
-        <Text fw={600} fz={24} ta={'center'}>
-          ABSENSI PEGAWAI PPNPN BALITBANG HUKUM DAN HAM.
-        </Text>
+        <div className="flex">
+          <Image
+            alt="favicon.ico"
+            className="w-max"
+            height={110}
+            radius={16}
+            src={'favicon.ico'}
+            width={105}
+          />
+          <Text className="w-[270px]" fw={600} fz={24} ta={'center'}>
+            ABSENSI PEGAWAI PPNPN BALITBANG HUKUM DAN HAM.
+          </Text>
+        </div>
         <div className="!mt-[32px] flex w-full flex-col space-y-1">
-          <Input
+          <TextInput
+            error={touched.username && errors.username}
             label="Username"
             name="username"
             onChange={handleChange}
             value={values.username}
           />
-          <Input
-            type='text'
+          <PasswordInput
+            error={touched.password && errors.password}
             label="Password"
             name="password"
             onChange={handleChange}

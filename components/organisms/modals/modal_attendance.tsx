@@ -80,7 +80,7 @@ const ModalAttendance = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [imageList, user.username]);
+  }, [imageList, user?.username]);
 
   const onOpen = () => setOpened(true);
   const onClose = async () => {

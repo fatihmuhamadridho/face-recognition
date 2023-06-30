@@ -4,14 +4,15 @@ import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@components/atoms';
 
 import { Text } from '@components/atoms/text';
-import { Image, Select } from '@mantine/core';
-import { Input, Button } from '@components/atoms';
+import { Image, PasswordInput, Select, TextInput } from '@mantine/core';
+import { Button } from '@components/atoms';
 import IMG_Balitbang from '@assets/images/balitbang.png';
 import { useState } from 'react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { DatePickerInput } from '@mantine/dates';
 import { UserService } from 'services/userService/user';
 import { useQueryClient } from '@tanstack/react-query';
+import * as yup from 'yup';
 
 interface UserPayload {
   username: string;
@@ -21,14 +22,26 @@ interface UserPayload {
   birth_date: string | any;
   gender: string;
   address: string;
-  RoleId: number | any;
+  RoleId: any;
 }
 
 export default function Register() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [step, setStep] = useState<number>(0);
-  const { handleChange, handleSubmit, values } = useForm({
+
+  const validationSchema = yup.object().shape({
+    first_name: yup.string().required('First Name is required'),
+    last_name: yup.string().required('Last Name is required'),
+    birth_date: yup.string().required('Birth Date is required'),
+    gender: yup.string().required('Gender is required'),
+    address: yup.string().required('Address is required'),
+    RoleId: yup.string().required('Role is required'),
+    username: yup.string().required('Username is required'),
+    password: yup.string().required('Password is required')
+  });
+
+  const { handleChange, handleSubmit, values, touched, errors } = useForm({
     initialValues: {
       username: '',
       password: '',
@@ -37,9 +50,10 @@ export default function Register() {
       birth_date: new Date(),
       gender: '',
       address: '',
-      RoleId: 0
+      RoleId: '0'
     },
-    onSubmit: (values: UserPayload) => handleRegister(values)
+    onSubmit: (values: UserPayload) => handleRegister(values),
+    validationSchema: validationSchema
   });
 
   const handleRegister = async (payload: UserPayload) => {
@@ -63,26 +77,33 @@ export default function Register() {
         handleSubmit={handleSubmit}
         hideDefaultButton
         hideDefaultInput>
-        <Image
-          alt="favicon.ico"
-          height={110}
-          radius={16}
-          src={'favicon.ico'}
-          width={105}
-        />
-        <Text fw={600} fz={24} ta={'center'}>
-          ABSENSI PEGAWAI PPNPN BALITBANG HUKUM DAN HAM.
-        </Text>
+        <div className="flex">
+          <Image
+            alt="favicon.ico"
+            className="w-max"
+            height={110}
+            radius={16}
+            src={'favicon.ico'}
+            width={105}
+          />
+          <Text className="w-[270px]" fw={600} fz={24} ta={'center'}>
+            ABSENSI PEGAWAI PPNPN BALITBANG HUKUM DAN HAM.
+          </Text>
+        </div>
         {step === 0 && (
           <div className="!mt-[32px] flex w-full flex-col space-y-1">
             <div className="flex items-center space-x-2">
-              <Input
+              <TextInput
+                className="w-full"
+                error={touched.first_name && errors.first_name}
                 label="First Name"
                 name="first_name"
                 onChange={handleChange}
                 value={values.first_name}
               />
-              <Input
+              <TextInput
+                className="w-full"
+                error={touched.last_name && errors.last_name}
                 label="Last Name"
                 name="last_name"
                 onChange={handleChange}
@@ -96,6 +117,7 @@ export default function Register() {
                   { label: 'pria', value: 'pria' },
                   { label: 'wanita', value: 'wanita' }
                 ]}
+                error={touched.gender && errors.gender}
                 label="Gender"
                 name="gender"
                 onChange={(e: any) =>
@@ -114,7 +136,9 @@ export default function Register() {
                 value={new Date(values.birth_date)}
               />
             </div>
-            <Input
+            <TextInput
+              className="w-full"
+              error={touched.address && errors.address}
               label="Address"
               name="address"
               onChange={handleChange}
@@ -131,22 +155,25 @@ export default function Register() {
               <IconChevronLeft size={12} />
               <Text fz={12} title="Back" />
             </div>
-            <Input
+            <TextInput
+              className="w-full"
+              error={touched.username && errors.username}
               label="Username"
               name="username"
               onChange={handleChange}
               value={values.username}
             />
-            <Input
+            <PasswordInput
+              className="w-full"
+              error={touched.password && errors.password}
               label="Password"
               name="password"
               onChange={handleChange}
               value={values.password}
             />
             <Select
-              data={[
-                { label: 'Pegawai', value: '2' }
-              ]}
+              data={[{ label: 'Pegawai', value: '2' }]}
+              error={touched.RoleId && values.RoleId === '0' ? 'Role is required' : ''}
               label="Role"
               name="RoleId"
               onChange={(e: any) =>

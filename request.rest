@@ -9,8 +9,8 @@ POST http://localhost:3000/api/user
 Content-Type: application/json
 
 {
-    "username": "superadmin",
-    "password": "superadmin",
+    "username": "superadmin2",
+    "password": "superadmin2",
     "first_name": "Super",
     "last_name": "Admin",
     "birth_date": "10-03-2001",
@@ -42,7 +42,7 @@ GET http://localhost:3000/api/attendance
 
 ###
 POST http://localhost:3000/api/attendance
-Authorization: Bearer eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
+Authorization: Bearer eyJ1c2VybmFtZSI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==
 
 ###
 GET http://localhost:3000/api/attendance/eyJlbWFpbCI6InBlZ2F3YWkiLCJwYXNzd29yZCI6InBlZ2F3YWkifQ==

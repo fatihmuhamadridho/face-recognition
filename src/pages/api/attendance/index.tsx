@@ -7,7 +7,7 @@ const handler = nextConnect();
 handler.get(async (req: any, res: any) => {
   try {
     await sequelize.authenticate();
-    const getAllAttendance = await Attendance.findAll({ include: User });
+    const getAllAttendance = await Attendance.findAll({ include: User, order: [['createdAt', 'DESC']] });
     const result = getAllAttendance.map((att) => {
       return {
         ...att.toJSON(),

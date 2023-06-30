@@ -35,7 +35,12 @@ const ModalValidation = ({ onClick }: ModalValidationProps) => {
             </Button>
             <Button
               className="w-full bg-[#DC2626] text-white"
-              onClick={onClick && onClick}
+              onClick={async () => {
+                if (onClick) {
+                  await onClick();
+                  await onClose();
+                }
+              }}
               variant="white">
               Delete
             </Button>

@@ -1,10 +1,11 @@
 import Head from 'next/head';
 import { Sidebar } from '@components/organisms/sidebar';
-import { CSSProperties } from 'react';
-import { IconHome2 } from '@tabler/icons-react';
+import { CSSProperties, useEffect } from 'react';
+import { IconClipboardList, IconHome2, IconLogout, IconUsers } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Navbar } from '@components/organisms/navbar';
 import { useAuthContext } from '@components/atoms';
+import { notifications } from '@mantine/notifications';
 
 interface IDefault {
   title?: string;
@@ -31,8 +32,18 @@ const styles: { [key: string]: CSSProperties } = {
 
 const Default = ({ title, children }: IDefault) => {
   const router = useRouter();
-  const { user } = useAuthContext();
-  // console.log(user);
+  const { user, setUser, setAccessToken } = useAuthContext();
+  console.log(user, router.asPath);
+
+  useEffect(() => {
+    if (user?.RoleId === 1 && router.asPath.includes("/employee")) {
+      router.push("/admin")
+    }
+
+    if (user?.RoleId === 2 && router.asPath.includes("/admin")) {
+      router.push("/employee")
+    }
+  }, [router, user?.RoleId])
 
   const pegawaiTopRoutes = [
     {
@@ -44,7 +55,7 @@ const Default = ({ title, children }: IDefault) => {
     {
       title: 'Kehadiran',
       path: "/employee/kehadiran",
-      icon: <IconHome2 color="white" />,
+      icon: <IconClipboardList color="white" />,
       onClick: () => router.push('/employee/kehadiran')
     },
   ];
@@ -59,13 +70,13 @@ const Default = ({ title, children }: IDefault) => {
     {
       title: 'Kehadiran',
       path: "/admin/kehadiran",
-      icon: <IconHome2 color="white" />,
+      icon: <IconClipboardList color="white" />,
       onClick: () => router.push('/admin/kehadiran')
     },
     {
       title: 'Users',
       path: "/admin/user",
-      icon: <IconHome2 color="white" />,
+      icon: <IconUsers color="white" />,
       onClick: () => router.push('/admin/user')
     }
   ];
@@ -80,9 +91,16 @@ const Default = ({ title, children }: IDefault) => {
     {
       title: 'Logout',
       path: "/employee/logout",
-      icon: <IconHome2 color="white" />,
-      onClick: () => {
-        localStorage.clear();
+      icon: <IconLogout color="white" />,
+      onClick: async () => {
+        await localStorage.clear();
+        await setUser(null);
+        await setAccessToken("");
+        await notifications.show({
+          title: 'Berhasil',
+          message: 'Berhasil Logout',
+          color: 'green'
+        });
         router.push('/');
       }
     }

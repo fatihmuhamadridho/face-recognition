@@ -93,6 +93,8 @@ handler.delete(async (req: any, res: any) => {
 
   try {
     await sequelize.authenticate();
+    await Attendance.destroy({ where: { UserId: Number(userId) } });
+    await UserDetail.destroy({ where: { UserId: Number(userId) } });
     const deleteUser = await User.destroy({ where: { id: userId } });
 
     if (deleteUser === 0) throw Error('User tidak ditemukan');

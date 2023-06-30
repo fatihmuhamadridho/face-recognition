@@ -1,3 +1,4 @@
+import { useAuthContext } from '@components/atoms';
 import { Text } from '@components/atoms/text';
 import { Avatar, Image } from '@mantine/core';
 import { CSSProperties } from 'react';
@@ -25,12 +26,14 @@ const styles: { [key: string]: CSSProperties } = {
 };
 
 const Navbar = ({ title }: INavbar) => {
+  const { user } = useAuthContext();
+
   return (
     <div style={styles.root}>
       <Text fw={500} fz={32} title={title} />
       <div className='flex items-center space-x-3'>
         <Avatar alt="avatar" radius={"xl"}  size={35} src={'https://i.pravatar.cc/57?img=3'} />
-        <Text fw={300} fz={18}>Superadmin</Text>
+        <Text fw={300} fz={18}>{user?.username || ""}</Text>
       </div>
     </div>
   );
