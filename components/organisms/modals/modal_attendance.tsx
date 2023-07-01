@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { Button } from '@components/atoms/button';
 import { Text } from '@components/atoms/text';
 import Webcam from 'react-webcam';
-import { AttendanceService } from 'services';
 import { useAuthContext } from '@components/atoms';
 import axios from 'axios';
 import { geolocation, useQueryClient } from '@libs';
 import { UploadService } from 'services/upload/upload';
 import { notifications } from '@mantine/notifications';
+import dayjs from 'dayjs';
+import { AttendanceService } from 'services';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {},
@@ -92,17 +93,57 @@ const ModalAttendance = () => {
   // console.log(user.login_token)
 
   const handleAttendance = async () => {
+    let description = '';
     const distance: any = await geolocation({
       allowedLatitude: -6.2244171,
       allowedLongitude: 106.6921108
     });
+
+    console.log(distance);
+
+    const currentTime = dayjs();
+    const attendanceStartTime = dayjs().set('hour', 7).set('minute', 0).set('second', 0); // Jam 7 pagi
+    const attendanceEndTime = dayjs().set('hour', 20).set('minute', 0).set('second', 0); // Jam 8 malam
+
+    if (
+      currentTime.isAfter(attendanceStartTime)
+      && currentTime.isBefore(attendanceEndTime)
+    ) {
+      if (
+        currentTime.isSame(attendanceStartTime)
+        || currentTime.isBefore(dayjs().set('hour', 8).set('minute', 0).set('second', 0))
+      ) {
+        // Absensi tepat waktu (jam 7 pagi - jam 8 pagi)
+        description = 'Anda absen tepat waktu';
+        // console.log("Anda absen tepat waktu");
+      } else {
+        // Absensi terlambat (lewat dari jam 8 pagi - jam 12 malam)
+        const lateMinutes = currentTime.diff(
+          dayjs().set('hour', 8).set('minute', 0).set('second', 0),
+          'minute'
+        );
+        const lateDescription = `Anda terlambat ${lateMinutes} menit`;
+        description = lateDescription;
+        // console.log(lateDescription);
+      }
+    } else {
+      // Absensi belum dibuka (jam 12 malam - jam 7 pagi)
+      setImageList([]);
+      setOpened(false);
+      // description = 'Absensi belum dibuka'
+      return notifications.show({
+        title: 'Gagal',
+        message: 'Absensi belum dibuka',
+        color: 'orange'
+      });
+    }
 
     if (distance >= 10000000000000) {
       setImageList([]);
       setOpened(false);
       return notifications.show({
         title: 'Gagal',
-        message: 'Your distance is too far from the office',
+        message: 'Jarak Anda terlalu jauh dari kantor',
         color: 'red'
       });
     }
@@ -112,7 +153,7 @@ const ModalAttendance = () => {
         status: 'Absen',
         distance: distance,
         images: imageList,
-        description: 'Tepat Waktu'
+        description: description
       });
       if (response.status === 200) {
         await queryClient.invalidateQueries(['getOneAttendance']);

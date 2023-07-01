@@ -79,7 +79,7 @@ handler.get(async (req: any, res: any) => {
         status: "Izin",
         distance: 10000000,
         images: ["1.jpg"],
-        description: "awdadaaw"
+        description: "Contoh Tepat Waktu"
       },
       { include: User }
     );
