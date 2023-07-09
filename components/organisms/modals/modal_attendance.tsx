@@ -95,8 +95,8 @@ const ModalAttendance = () => {
   const handleAttendance = async () => {
     let description = '';
     const distance: any = await geolocation({
-      allowedLatitude: -6.2244171,
-      allowedLongitude: 106.6921108
+      allowedLatitude: -6.2233295,
+      allowedLongitude: 106.8325195
     });
 
     console.log(distance);
@@ -138,7 +138,7 @@ const ModalAttendance = () => {
       });
     }
 
-    if (distance >= 10000000000000) {
+    if (distance >= 35) {
       setImageList([]);
       setOpened(false);
       return notifications.show({
