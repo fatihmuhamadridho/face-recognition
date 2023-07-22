@@ -9,7 +9,7 @@ export default function AdminDashboard() {
     <Default title='Dashboard'>
       <Banner
         subTitle="Nikmati kemudahan layanan kami sesuai kebutuhan Anda, pilih dan masuk ke layanan yang tersedia dibawah ini."
-        title={`Selamat Datang, ${user.username}!`}
+        title={`Selamat Datang, ${user?.username}!`}
       />
     </Default>
   );

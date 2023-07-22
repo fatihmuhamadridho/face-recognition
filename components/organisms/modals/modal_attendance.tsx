@@ -11,6 +11,7 @@ import { UploadService } from 'services/upload/upload';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import { AttendanceService } from 'services';
+import { useGetDetailSetting } from 'services/settingService';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {},
@@ -59,6 +60,7 @@ const ModalAttendance = () => {
   const webcamRef = useRef<any>(null);
 
   const { user } = useAuthContext();
+  const { data: detailSettingData } = useGetDetailSetting('balitbang');
   const [opened, setOpened] = useState<boolean>(false);
   const [imageList, setImageList] = useState<string[]>([]);
 
@@ -95,8 +97,8 @@ const ModalAttendance = () => {
   const handleAttendance = async () => {
     let description = '';
     const distance: any = await geolocation({
-      allowedLatitude: -6.2233295,
-      allowedLongitude: 106.8325195
+      allowedLatitude: Number(detailSettingData?.latitude),
+      allowedLongitude: Number(detailSettingData?.longitude)
     });
 
     console.log(distance);
@@ -138,7 +140,7 @@ const ModalAttendance = () => {
       });
     }
 
-    if (distance >= 35) {
+    if (distance >= 100) {
       setImageList([]);
       setOpened(false);
       return notifications.show({

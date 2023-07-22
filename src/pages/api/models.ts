@@ -5,6 +5,7 @@ class User extends Model {}
 class UserDetail extends Model {}
 class Role extends Model {}
 class Attendance extends Model {}
+class Setting extends Model {}
 
 User.init(
   {
@@ -65,6 +66,23 @@ Attendance.init(
   { sequelize }
 );
 
+Setting.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    latitude: DataTypes.STRING,
+    longitude: DataTypes.STRING,
+  },
+  { sequelize }
+)
+
 Role.hasMany(User);
 User.belongsTo(Role);
 
@@ -74,4 +92,4 @@ UserDetail.belongsTo(User);
 User.hasMany(Attendance);
 Attendance.belongsTo(User);
 
-export { Role, User, UserDetail, Attendance };
+export { Role, User, UserDetail, Attendance, Setting };

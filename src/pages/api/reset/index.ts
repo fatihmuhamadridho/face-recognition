@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect';
 import { sequelize } from '@apis/connection';
-import { Role, User, UserDetail, Attendance } from '@apis/models';
+import { Role, User, UserDetail, Attendance, Setting } from '@apis/models';
 
 const handler = nextConnect();
 const date = new Date();
@@ -16,11 +16,13 @@ handler.get(async (req: any, res: any) => {
     await Attendance.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0', {
       raw: true
     });
+    await Setting.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
 
     await Role.sync({ force: true });
     await User.sync({ force: true });
     await UserDetail.sync({ force: true });
     await Attendance.sync({ force: true });
+    await Setting.sync({ force: true });
 
     await Role.bulkCreate([
       { role_id: 1, name: 'Administrator' },
@@ -84,15 +86,25 @@ handler.get(async (req: any, res: any) => {
       { include: User }
     );
 
+    await Setting.create(
+      {
+        name: "balitbang",
+        latitude: "-6.2233295",
+        longitude: "106.8325195"
+      }
+    )
+
     const getAllRoles = await Role.findAll({});
     const getAllUsers = await User.findAll({ include: [Role, UserDetail] });
     const getAllAttendance = await Attendance.findAll({ include: User });
+    const getAllSetting = await Setting.findAll({});
     res.status(200).json({
       status: true,
       data: {
         getAllRoles,
         getAllUsers,
-        getAllAttendance
+        getAllAttendance,
+        getAllSetting
       }
     });
   } catch (error: any) {

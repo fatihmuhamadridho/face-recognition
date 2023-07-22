@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Sidebar } from '@components/organisms/sidebar';
 import { CSSProperties, useEffect } from 'react';
-import { IconClipboardList, IconHome2, IconLogout, IconUsers } from '@tabler/icons-react';
+import { IconClipboardList, IconHome2, IconLogout, IconSettings, IconUsers } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Navbar } from '@components/organisms/navbar';
 import { useAuthContext } from '@components/atoms';
@@ -81,16 +81,35 @@ const Default = ({ title, children }: IDefault) => {
     }
   ];
 
-  const bottomRoutes = [
-    // {
-    //   title: 'Settings',
-    //   path: "/employee/settings",
-    //   icon: <IconHome2 color="white" />,
-    //   onClick: () => router.push('/employee')
-    // },
+  const adminBottomRoutes = [
+    {
+      title: 'Settings',
+      path: "/admin/setting",
+      icon: <IconSettings color="white" />,
+      onClick: () => router.push('/admin/setting')
+    },
     {
       title: 'Logout',
-      path: "/employee/logout",
+      path: "/",
+      icon: <IconLogout color="white" />,
+      onClick: async () => {
+        await localStorage.clear();
+        await setUser(null);
+        await setAccessToken("");
+        await notifications.show({
+          title: 'Berhasil',
+          message: 'Berhasil Logout',
+          color: 'green'
+        });
+        router.push('/');
+      }
+    }
+  ];
+
+  const pegawaiBottomRoutes = [
+    {
+      title: 'Logout',
+      path: "/",
       icon: <IconLogout color="white" />,
       onClick: async () => {
         await localStorage.clear();
@@ -114,8 +133,8 @@ const Default = ({ title, children }: IDefault) => {
       <div style={styles.root}>
         <Sidebar
           activePath={router.asPath}
-          bottomRoutes={bottomRoutes}
-          onClickLogo={() => router.push('/employee')}
+          bottomRoutes={user?.RoleId === 1 ? adminBottomRoutes : pegawaiBottomRoutes}
+          onClickLogo={() => router.push(user?.RoleId === 1 ? '/admin' : '/employee')}
           topRoutes={user?.RoleId === 1 ? adminTopRoutes : pegawaiTopRoutes}
         />
         <div style={styles.container}>
