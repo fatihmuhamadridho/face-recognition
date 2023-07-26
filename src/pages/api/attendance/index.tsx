@@ -7,7 +7,10 @@ const handler = nextConnect();
 handler.get(async (req: any, res: any) => {
   try {
     await sequelize.authenticate();
-    const getAllAttendance = await Attendance.findAll({ include: User, order: [['createdAt', 'DESC']] });
+    const getAllAttendance = await Attendance.findAll({
+      include: User,
+      order: [['createdAt', 'DESC']]
+    });
     const result = getAllAttendance.map((att) => {
       return {
         ...att.toJSON(),
@@ -25,7 +28,7 @@ handler.get(async (req: any, res: any) => {
 });
 
 handler.post(async (req: any, res: any) => {
-  const { status, distance, images, description } = req.body;
+  const { status, distance, latitude, longitude, images, description } = req.body;
   const { authorization } = req.headers;
 
   try {
@@ -38,12 +41,14 @@ handler.post(async (req: any, res: any) => {
         UserId: findUser?.toJSON().id,
         status,
         distance,
+        latitude,
+        longitude,
         images,
         description
       },
       { include: User }
     );
-    
+
     res.status(200).json({
       status: true,
       data: createAttendace

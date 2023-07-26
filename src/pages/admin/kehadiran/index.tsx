@@ -10,27 +10,14 @@ export default function AdminKehadiran() {
   const { data: attendanceData } = useGetAllAttendance();
   const [searchInput, setSearchInput] = useState<string>('');
 
-  const renderActions = () => {
-    return (
-      <div className="flex items-center">
-        <Text
-          className="cursor-pointer px-[15px]"
-          color="#10B981"
-          fw={300}
-          fz={14}
-          lh={'20px'}>
-          Edit
-        </Text>
-      </div>
-    );
-  };
-
   const tableHeader = [
     { label: 'Username', key: 'username' },
     { label: 'Tanggal Absensi', key: 'createdAt' },
     { label: 'Waktu Absensi', key: 'updatedAt' },
     { label: 'Status', key: 'status' },
     { label: 'Jarak dengan kantor', key: 'distance' },
+    { label: 'Latitude', key: 'latitude' },
+    { label: 'Longitude', key: 'longitude' },
     { label: "Keterangan", key: "description" }
   ];
 

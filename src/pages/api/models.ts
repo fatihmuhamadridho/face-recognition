@@ -60,6 +60,8 @@ Attendance.init(
     },
     status: DataTypes.STRING,
     distance: DataTypes.INTEGER,
+    latitude: DataTypes.STRING,
+    longitude: DataTypes.STRING,
     images: DataTypes.JSON,
     description: DataTypes.STRING,
   },

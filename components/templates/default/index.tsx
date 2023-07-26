@@ -33,7 +33,7 @@ const styles: { [key: string]: CSSProperties } = {
 const Default = ({ title, children }: IDefault) => {
   const router = useRouter();
   const { user, setUser, setAccessToken } = useAuthContext();
-  console.log(user, router.asPath);
+  // console.log(user, router.asPath);
 
   useEffect(() => {
     if (user?.RoleId === 1 && router.asPath.includes("/employee")) {

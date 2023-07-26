@@ -50,7 +50,7 @@ const ModalIzin = () => {
   const onClose = () => setOpened(false);
 
   const handleIzin = async (values: any) => {
-    const distance: any = await geolocation({
+    const { distance, latitude, longitude }: any = await geolocation({
       allowedLatitude: -6.2175477,
       allowedLongitude: 106.6715803
     });
@@ -60,7 +60,9 @@ const ModalIzin = () => {
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Izin',
-        distance: distance,
+        distance,
+        latitude,
+        longitude,
         description: values.description
       });
 

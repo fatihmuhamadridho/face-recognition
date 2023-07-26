@@ -80,6 +80,8 @@ handler.get(async (req: any, res: any) => {
         UserId: 2,
         status: "Izin",
         distance: 10000000,
+        latitude: "6.2160665",
+        longitude: "106.6880278",
         images: ["1.jpg"],
         description: "Contoh Tepat Waktu"
       },

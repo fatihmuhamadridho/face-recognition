@@ -1,11 +1,10 @@
-import { useGetOneAttendance, AttendanceService } from 'services';
+import { useGetOneAttendance } from 'services';
 import { CSSProperties } from 'react';
 
 import { useAuthContext } from '@components/atoms';
 import { Default } from '@components/templates/default';
 import { ModalAttendance } from '@components/organisms/modals/modal_attendance';
 import { ModalIzin } from '@components/organisms/modals/modal_izin';
-import { Text } from '@mantine/core';
 import { Table } from '@components/molecules/table2';
 
 const styles: { [key: string]: CSSProperties } = {
@@ -21,8 +20,9 @@ export default function EmployeeKehadiran() {
     { label: 'Waktu', key: 'updatedAt' },
     { label: 'Status', key: 'status' },
     { label: 'Jarak', key: 'distance' },
+    { label: 'Latitude', key: 'latitude' },
+    { label: 'Longitude', key: 'longitude' },
     { label: 'Keterangan', key: 'description' }
-    // { label: 'Actions', key: renderActions }
   ];
 
   return (

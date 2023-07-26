@@ -41,7 +41,7 @@ export default function geolocation(location: {
       async (position: any) => {
         const { latitude, longitude } = position.coords;
         const distance = await calculateDistance(latitude, longitude);
-        resolve(distance);
+        resolve({ distance, latitude, longitude });
       },
       async (error: any) => {
         reject(error);

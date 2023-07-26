@@ -10,7 +10,14 @@ interface ITable {
   [key: string]: any;
 }
 
-const Table = ({ header, data, pagination, limit, handleRowClick, height = 300 }: ITable) => {
+const Table = ({
+  header,
+  data,
+  pagination,
+  limit,
+  handleRowClick,
+  height = 300
+}: ITable) => {
   return (
     <ScrollArea h={height}>
       <TableCore className="!border-collapse">

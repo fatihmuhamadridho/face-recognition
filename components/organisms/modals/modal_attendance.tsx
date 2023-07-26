@@ -92,11 +92,9 @@ const ModalAttendance = () => {
     setOpened(false);
   };
 
-  // console.log(user.login_token)
-
   const handleAttendance = async () => {
     let description = '';
-    const distance: any = await geolocation({
+    const { distance, longitude, latitude }: any = await geolocation({
       allowedLatitude: Number(detailSettingData?.latitude),
       allowedLongitude: Number(detailSettingData?.longitude)
     });
@@ -153,9 +151,11 @@ const ModalAttendance = () => {
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Absen',
-        distance: distance,
+        distance,
+        longitude,
+        latitude,
         images: imageList,
-        description: description
+        description
       });
       if (response.status === 200) {
         await queryClient.invalidateQueries(['getOneAttendance']);
