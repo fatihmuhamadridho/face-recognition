@@ -10,6 +10,7 @@ import { geolocation } from '@libs';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { notifications } from '@mantine/notifications';
+import { useGetDetailSetting } from 'services/settingService';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {},
@@ -40,6 +41,7 @@ const styles: { [key: string]: CSSProperties } = {
 const ModalIzin = () => {
   const queryClient = useQueryClient();
   const { user } = useAuthContext();
+  const { data: detailSettingData } = useGetDetailSetting('balitbang');
   const [opened, setOpened] = useState<boolean>(false);
 
   const validationSchema = yup.object().shape({
@@ -51,8 +53,8 @@ const ModalIzin = () => {
 
   const handleIzin = async (values: any) => {
     const { distance, latitude, longitude }: any = await geolocation({
-      allowedLatitude: -6.2175477,
-      allowedLongitude: 106.6715803
+      allowedLatitude: Number(detailSettingData?.latitude),
+      allowedLongitude: Number(detailSettingData?.longitude)
     });
 
     if (values.description === '') return null;
