@@ -6,6 +6,7 @@ class UserDetail extends Model {}
 class Role extends Model {}
 class Attendance extends Model {}
 class Setting extends Model {}
+class Coordinate extends Model {}
 
 User.init(
   {
@@ -60,6 +61,7 @@ Attendance.init(
     },
     status: DataTypes.STRING,
     distance: DataTypes.INTEGER,
+    place_name: DataTypes.STRING,
     latitude: DataTypes.STRING,
     longitude: DataTypes.STRING,
     images: DataTypes.JSON,
@@ -69,6 +71,21 @@ Attendance.init(
 );
 
 Setting.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+    }
+  },
+  { sequelize }
+)
+
+Coordinate.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -94,4 +111,7 @@ UserDetail.belongsTo(User);
 User.hasMany(Attendance);
 Attendance.belongsTo(User);
 
-export { Role, User, UserDetail, Attendance, Setting };
+Setting.hasMany(Coordinate);
+Coordinate.belongsTo(Setting);
+
+export { Role, User, UserDetail, Attendance, Setting, Coordinate };

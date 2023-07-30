@@ -94,24 +94,32 @@ const ModalAttendance = () => {
 
   const handleAttendance = async () => {
     let description = '';
-    const { distance, longitude, latitude }: any = await geolocation({
-      allowedLatitude: Number(detailSettingData?.latitude),
-      allowedLongitude: Number(detailSettingData?.longitude)
-    });
+    const distances = await Promise.all(
+      detailSettingData?.Coordinates?.map(async (coordItem: any, coordIndex: number) => {
+        const { distance, latitude, longitude }: any = await geolocation({
+          allowedLatitude: Number(coordItem?.latitude),
+          allowedLongitude: Number(coordItem?.longitude)
+        });
 
-    console.log(distance);
+        return { distance, latitude, longitude, place_name: coordItem.name };
+      })
+    );
+
+    const lowestCoordinateDistance = distances.reduce((minDistanceObj, current) => {
+      return current.distance < minDistanceObj.distance ? current : minDistanceObj;
+    }, distances[0]);
 
     const currentTime = dayjs();
     const attendanceStartTime = dayjs().set('hour', 7).set('minute', 0).set('second', 0); // Jam 7 pagi
     const attendanceEndTime = dayjs().set('hour', 20).set('minute', 0).set('second', 0); // Jam 8 malam
 
     if (
-      currentTime.isAfter(attendanceStartTime)
-      && currentTime.isBefore(attendanceEndTime)
+      currentTime.isAfter(attendanceStartTime) &&
+      currentTime.isBefore(attendanceEndTime)
     ) {
       if (
-        currentTime.isSame(attendanceStartTime)
-        || currentTime.isBefore(dayjs().set('hour', 8).set('minute', 0).set('second', 0))
+        currentTime.isSame(attendanceStartTime) ||
+        currentTime.isBefore(dayjs().set('hour', 8).set('minute', 0).set('second', 0))
       ) {
         // Absensi tepat waktu (jam 7 pagi - jam 8 pagi)
         description = 'Anda absen tepat waktu';
@@ -138,22 +146,23 @@ const ModalAttendance = () => {
       });
     }
 
-    if (distance >= 100) {
-      setImageList([]);
-      setOpened(false);
-      return notifications.show({
-        title: 'Gagal',
-        message: 'Jarak Anda terlalu jauh dari kantor',
-        color: 'red'
-      });
-    }
+    // if (lowestCoordinateDistance.distance >= 100) {
+    //   setImageList([]);
+    //   setOpened(false);
+    //   return notifications.show({
+    //     title: 'Gagal',
+    //     message: 'Jarak Anda terlalu jauh dari kantor',
+    //     color: 'red'
+    //   });
+    // }
 
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Absen',
-        distance,
-        longitude,
-        latitude,
+        distance: lowestCoordinateDistance.distance,
+        place_name: lowestCoordinateDistance.place_name,
+        longitude: lowestCoordinateDistance.longitude,
+        latitude: lowestCoordinateDistance.latitude,
         images: imageList,
         description
       });
@@ -209,8 +218,8 @@ const ModalAttendance = () => {
           width={400}
         />
         <div className="mt-4 flex space-x-4">
-          {imageList.length > 0
-            && imageList?.map((file: any, index: number) => (
+          {imageList.length > 0 &&
+            imageList?.map((file: any, index: number) => (
               <Image key={index} src={file} />
             ))}
         </div>

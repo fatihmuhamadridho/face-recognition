@@ -19,7 +19,8 @@ export default function EmployeeKehadiran() {
     { label: 'Tanggal', key: 'createdAt' },
     { label: 'Waktu', key: 'updatedAt' },
     { label: 'Status', key: 'status' },
-    { label: 'Jarak', key: 'distance' },
+    { label: 'Jarak Terdekat', key: 'distance' },
+    { label: 'Titik Terdekat', key: 'place_name' },
     { label: 'Latitude', key: 'latitude' },
     { label: 'Longitude', key: 'longitude' },
     { label: 'Keterangan', key: 'description' }

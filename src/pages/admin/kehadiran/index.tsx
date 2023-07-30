@@ -15,7 +15,8 @@ export default function AdminKehadiran() {
     { label: 'Tanggal Absensi', key: 'createdAt' },
     { label: 'Waktu Absensi', key: 'updatedAt' },
     { label: 'Status', key: 'status' },
-    { label: 'Jarak dengan kantor', key: 'distance' },
+    { label: 'Jarak terdekat', key: 'distance' },
+    { label: 'Titik terdekat', key: 'place_name' },
     { label: 'Latitude', key: 'latitude' },
     { label: 'Longitude', key: 'longitude' },
     { label: "Keterangan", key: "description" }
@@ -31,7 +32,8 @@ export default function AdminKehadiran() {
             tanggal_absensi: data.createdAt,
             waktu_absensi: data.createdAt,
             status: data.status,
-            jarak_dengan_kantor: data.distance,
+            jarak_terdekat: data.distance,
+            titik_terdekat: data.place_name,
             keterangan: data.description
           };
         }),

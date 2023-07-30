@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect';
 import { sequelize } from '@apis/connection';
-import { Setting } from '@apis/models';
+import { Coordinate, Setting } from '@apis/models';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = nextConnect();
@@ -9,7 +9,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { name } = req.query;
   try {
     await sequelize.authenticate();
-    const getAllSettings = await Setting.findOne({ where: { name } });
+    const getAllSettings = await Setting.findOne({ where: { name }, include: Coordinate });
     res.status(200).json({
       status: true,
       data: getAllSettings

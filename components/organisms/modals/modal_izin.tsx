@@ -52,19 +52,30 @@ const ModalIzin = () => {
   const onClose = () => setOpened(false);
 
   const handleIzin = async (values: any) => {
-    const { distance, latitude, longitude }: any = await geolocation({
-      allowedLatitude: Number(detailSettingData?.latitude),
-      allowedLongitude: Number(detailSettingData?.longitude)
-    });
+    const distances = await Promise.all(
+      detailSettingData?.Coordinates?.map(async (coordItem: any, coordIndex: number) => {
+        const { distance, latitude, longitude }: any = await geolocation({
+          allowedLatitude: Number(coordItem?.latitude),
+          allowedLongitude: Number(coordItem?.longitude)
+        });
+
+        return { distance, latitude, longitude, place_name: coordItem.name };
+      })
+    );
+
+    const lowestCoordinateDistance = distances.reduce((minDistanceObj, current) => {
+      return current.distance < minDistanceObj.distance ? current : minDistanceObj;
+    }, distances[0]);
 
     if (values.description === '') return null;
 
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Izin',
-        distance,
-        latitude,
-        longitude,
+        distance: lowestCoordinateDistance.distance,
+        place_name: lowestCoordinateDistance.place_name,
+        latitude: lowestCoordinateDistance.latitude,
+        longitude: lowestCoordinateDistance.longitude,
         description: values.description
       });
 
@@ -102,7 +113,7 @@ const ModalIzin = () => {
           onSubmit={(values: any) => handleIzin(values)}
           validationSchema={validationSchema}>
           {({ values, handleSubmit, setFieldValue, touched, errors }) => (
-            <Form           className="space-y-4" onSubmit={handleSubmit}>
+            <Form className="space-y-4" onSubmit={handleSubmit}>
               <Text>Alasan tidak masuk</Text>
               <Textarea
                 error={

@@ -22,6 +22,7 @@ export class AttendanceService {
     payload: {
       status: string;
       distance?: number;
+      place_name?: string;
       latitude?: string;
       longitude?: string;
       images?: string[];

@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect';
 import { sequelize } from '@apis/connection';
-import { Role, User, UserDetail, Attendance, Setting } from '@apis/models';
+import { Role, User, UserDetail, Attendance, Setting, Coordinate } from '@apis/models';
 
 const handler = nextConnect();
 const date = new Date();
@@ -17,12 +17,14 @@ handler.get(async (req: any, res: any) => {
       raw: true
     });
     await Setting.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
+    await Coordinate.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
 
     await Role.sync({ force: true });
     await User.sync({ force: true });
     await UserDetail.sync({ force: true });
     await Attendance.sync({ force: true });
     await Setting.sync({ force: true });
+    await Coordinate.sync({ force: true });
 
     await Role.bulkCreate([
       { role_id: 1, name: 'Administrator' },
@@ -45,8 +47,8 @@ handler.get(async (req: any, res: any) => {
           first_name: 'superadmin',
           last_name: 'superadmin',
           birth_date: String(new Date()),
-          gender: "pria",
-          address: "Jl. H. Djiran"
+          gender: 'pria',
+          address: 'Jl. H. Djiran'
         }
       },
       { include: [Role, UserDetail, Attendance] }
@@ -68,33 +70,45 @@ handler.get(async (req: any, res: any) => {
           first_name: 'pegawai',
           last_name: 'pegawai',
           birth_date: String(new Date()),
-          gender: "pria",
-          address: "Jl. H. Djiran"
+          gender: 'pria',
+          address: 'Jl. H. Djiran'
         }
       },
       { include: [Role, UserDetail, Attendance] }
     );
 
+    await Setting.create({
+      name: "balitbang"
+    })
+
+    await Coordinate.bulkCreate([
+      {
+        name: 'balitbang1',
+        latitude: '-6.2233395446301785',
+        longitude: '106.83251175380624',
+        SettingId: 1
+      },
+      {
+        name: 'balitbang2',
+        latitude: '-6.223672277169106',
+        longitude: '106.83158581193825',
+        SettingId: 1
+      }
+    ])
+
     await Attendance.create(
       {
         UserId: 2,
-        status: "Izin",
+        status: 'Izin',
         distance: 10000000,
-        latitude: "6.2160665",
-        longitude: "106.6880278",
-        images: ["1.jpg"],
-        description: "Contoh Tepat Waktu"
+        place_name: "balitbang1",
+        latitude: '6.2160665',
+        longitude: '106.6880278',
+        images: ['1.jpg'],
+        description: 'Contoh Tepat Waktu'
       },
       { include: User }
     );
-
-    await Setting.create(
-      {
-        name: "balitbang",
-        latitude: "-6.2233295",
-        longitude: "106.8325195"
-      }
-    )
 
     const getAllRoles = await Role.findAll({});
     const getAllUsers = await User.findAll({ include: [Role, UserDetail] });

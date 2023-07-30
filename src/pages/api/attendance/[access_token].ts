@@ -13,7 +13,7 @@ handler.get(async (req: any, res: any) => {
     });
     const getAttendance = await Attendance.findAll({
       where: { UserId: findUser?.toJSON().id },
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
     });
     res.status(200).json({
       status: true,
