@@ -31,9 +31,9 @@ const Table = ({
         <tbody>
           {data?.map((row: any, index: any) => {
             if (
-              pagination
-              && index < limit * pagination.active
-              && index >= limit * Number(pagination.active - 1)
+              pagination &&
+              index < limit * pagination.active &&
+              index >= limit * Number(pagination.active - 1)
             ) {
               return (
                 <tr
@@ -71,8 +71,8 @@ const Table = ({
                         key={`${key}-${index}`}
                         onClick={() => {
                           if (
-                            typeof handleRowClick === 'function'
-                            && typeof key !== 'function'
+                            typeof handleRowClick === 'function' &&
+                            typeof key !== 'function'
                           )
                             handleRowClick(row);
                         }}>

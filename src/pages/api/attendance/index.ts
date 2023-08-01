@@ -15,6 +15,7 @@ handler.get(async (req: any, res: any) => {
       return {
         ...att.toJSON(),
         User: undefined,
+        distance: JSON.parse(att.toJSON().distance),
         ...att.toJSON().User
       };
     });

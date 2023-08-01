@@ -60,10 +60,7 @@ Attendance.init(
       primaryKey: true
     },
     status: DataTypes.STRING,
-    distance: DataTypes.INTEGER,
-    place_name: DataTypes.STRING,
-    latitude: DataTypes.STRING,
-    longitude: DataTypes.STRING,
+    distance: DataTypes.JSON,
     images: DataTypes.JSON,
     description: DataTypes.STRING,
   },

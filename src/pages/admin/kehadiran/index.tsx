@@ -10,15 +10,37 @@ export default function AdminKehadiran() {
   const { data: attendanceData } = useGetAllAttendance();
   const [searchInput, setSearchInput] = useState<string>('');
 
+  const renderBalitbang1 = (values: any) => {
+    const distance = values?.distance?.find((data: any) => data?.name === 'balitbang1');
+    console.log({ distance });
+    return <div>{distance?.range} m</div>;
+  };
+
+  const renderBalitbang2 = (values: any) => {
+    const distance = values?.distance?.find((data: any) => data?.name === 'balitbang2');
+    console.log({ distance });
+    return <div>{distance?.range} m</div>;
+  };
+
+  const renderJarakTerdekat = (values: any) => {
+    const lowestRangeItem = values?.distance?.reduce((prev: any, curr: any) =>
+      Number(prev.range) < Number(curr.range) ? prev : curr
+    );
+    return (
+      <div>
+        {lowestRangeItem.range} m ({lowestRangeItem.name})
+      </div>
+    );
+  };
+
   const tableHeader = [
     { label: 'Username', key: 'username' },
     { label: 'Tanggal Absensi', key: 'createdAt' },
     { label: 'Waktu Absensi', key: 'updatedAt' },
     { label: 'Status', key: 'status' },
-    { label: 'Jarak terdekat', key: 'distance' },
-    { label: 'Titik terdekat', key: 'place_name' },
-    { label: 'Latitude', key: 'latitude' },
-    { label: 'Longitude', key: 'longitude' },
+    { label: 'Balitbang1', key: renderBalitbang1 },
+    { label: 'Balitbang2', key: renderBalitbang2 },
+    { label: 'Jarak Terdekat', key: renderJarakTerdekat },
     { label: "Keterangan", key: "description" }
   ];
 

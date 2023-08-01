@@ -78,8 +78,8 @@ handler.get(async (req: any, res: any) => {
     );
 
     await Setting.create({
-      name: "balitbang"
-    })
+      name: 'balitbang'
+    });
 
     await Coordinate.bulkCreate([
       {
@@ -94,16 +94,26 @@ handler.get(async (req: any, res: any) => {
         longitude: '106.83158581193825',
         SettingId: 1
       }
-    ])
+    ]);
 
     await Attendance.create(
       {
         UserId: 2,
         status: 'Izin',
-        distance: 10000000,
-        place_name: "balitbang1",
-        latitude: '6.2160665',
-        longitude: '106.6880278',
+        distance: [
+          {
+            name: 'balitbang1',
+            latitude: '-6.2233395446301785',
+            longitude: '106.83251175380624',
+            range: '123'
+          },
+          {
+            name: 'balitbang2',
+            latitude: '-6.223672277169106',
+            longitude: '106.83158581193825',
+            range: '321'
+          }
+        ],
         images: ['1.jpg'],
         description: 'Contoh Tepat Waktu'
       },
