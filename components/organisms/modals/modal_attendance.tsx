@@ -146,23 +146,20 @@ const ModalAttendance = () => {
       });
     }
 
-    // if (lowestCoordinateDistance.distance >= 100) {
-    //   setImageList([]);
-    //   setOpened(false);
-    //   return notifications.show({
-    //     title: 'Gagal',
-    //     message: 'Jarak Anda terlalu jauh dari kantor',
-    //     color: 'red'
-    //   });
-    // }
+    if (lowestCoordinateDistance.distance >= 100) {
+      setImageList([]);
+      setOpened(false);
+      return notifications.show({
+        title: 'Gagal',
+        message: 'Jarak Anda terlalu jauh dari kantor',
+        color: 'red'
+      });
+    }
 
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Absen',
-        distance: lowestCoordinateDistance.distance,
-        place_name: lowestCoordinateDistance.place_name,
-        longitude: lowestCoordinateDistance.longitude,
-        latitude: lowestCoordinateDistance.latitude,
+        distance: distances,
         images: imageList,
         description
       });
@@ -220,7 +217,7 @@ const ModalAttendance = () => {
         <div className="mt-4 flex space-x-4">
           {imageList.length > 0 &&
             imageList?.map((file: any, index: number) => (
-              <Image key={index} src={file} />
+              <Image key={index} src={file} alt="" />
             ))}
         </div>
 

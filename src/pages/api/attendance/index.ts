@@ -29,7 +29,7 @@ handler.get(async (req: any, res: any) => {
 });
 
 handler.post(async (req: any, res: any) => {
-  const { status, distance, place_name, latitude, longitude, images, description } = req.body;
+  const { status, distance, images, description } = req.body;
   const { authorization } = req.headers;
 
   try {
@@ -42,9 +42,6 @@ handler.post(async (req: any, res: any) => {
         UserId: findUser?.toJSON().id,
         status,
         distance,
-        place_name,
-        latitude,
-        longitude,
         images,
         description
       },

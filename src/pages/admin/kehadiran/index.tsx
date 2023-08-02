@@ -11,24 +11,28 @@ export default function AdminKehadiran() {
   const [searchInput, setSearchInput] = useState<string>('');
 
   const renderBalitbang1 = (values: any) => {
-    const distance = values?.distance?.find((data: any) => data?.name === 'balitbang1');
+    const distance = values?.distance?.find(
+      (data: any) => data?.place_name === 'balitbang1'
+    );
     console.log({ distance });
-    return <div>{distance?.range} m</div>;
+    return <div>{Math.floor(distance?.distance)}m</div>;
   };
 
   const renderBalitbang2 = (values: any) => {
-    const distance = values?.distance?.find((data: any) => data?.name === 'balitbang2');
+    const distance = values?.distance?.find(
+      (data: any) => data?.place_name === 'balitbang2'
+    );
     console.log({ distance });
-    return <div>{distance?.range} m</div>;
+    return <div>{Math.floor(distance?.distance)}m</div>;
   };
 
   const renderJarakTerdekat = (values: any) => {
     const lowestRangeItem = values?.distance?.reduce((prev: any, curr: any) =>
-      Number(prev.range) < Number(curr.range) ? prev : curr
+      Number(prev.distance) < Number(curr.distance) ? prev : curr
     );
     return (
       <div>
-        {lowestRangeItem.range} m ({lowestRangeItem.name})
+        {Math.floor(lowestRangeItem.distance)}m ({lowestRangeItem.place_name})
       </div>
     );
   };
@@ -41,7 +45,7 @@ export default function AdminKehadiran() {
     { label: 'Balitbang1', key: renderBalitbang1 },
     { label: 'Balitbang2', key: renderBalitbang2 },
     { label: 'Jarak Terdekat', key: renderJarakTerdekat },
-    { label: "Keterangan", key: "description" }
+    { label: 'Keterangan', key: 'description' }
   ];
 
   const handleDownloadExcel = async () => {
@@ -82,13 +86,13 @@ export default function AdminKehadiran() {
       <div className="mt-4">
         <Table
           data={attendanceData?.filter((val: any) => {
-            if (
-              searchInput !== ''
-            ) {
-              if (String(val.username).toLowerCase().includes(searchInput.toLowerCase())) {
-                return val
+            if (searchInput !== '') {
+              if (
+                String(val.username).toLowerCase().includes(searchInput.toLowerCase())
+              ) {
+                return val;
               } else {
-                return null
+                return null;
               }
             }
 

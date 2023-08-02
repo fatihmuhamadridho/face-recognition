@@ -21,10 +21,7 @@ export class AttendanceService {
     credential: string,
     payload: {
       status: string;
-      distance?: number;
-      place_name?: string;
-      latitude?: string;
-      longitude?: string;
+      distance?: any[];
       images?: string[];
       description: string;
     }

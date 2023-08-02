@@ -72,10 +72,7 @@ const ModalIzin = () => {
     try {
       const response = await AttendanceService.postAttendance(user?.login_token, {
         status: 'Izin',
-        distance: lowestCoordinateDistance.distance,
-        place_name: lowestCoordinateDistance.place_name,
-        latitude: lowestCoordinateDistance.latitude,
-        longitude: lowestCoordinateDistance.longitude,
+        distance: distances,
         description: values.description
       });
 

@@ -102,16 +102,16 @@ handler.get(async (req: any, res: any) => {
         status: 'Izin',
         distance: [
           {
-            name: 'balitbang1',
+            place_name: 'balitbang1',
             latitude: '-6.2233395446301785',
             longitude: '106.83251175380624',
-            range: '123'
+            distance: '123'
           },
           {
-            name: 'balitbang2',
+            place_name: 'balitbang2',
             latitude: '-6.223672277169106',
             longitude: '106.83158581193825',
-            range: '321'
+            distance: '321'
           }
         ],
         images: ['1.jpg'],
